@@ -164,10 +164,17 @@
     var a = e.target.closest("a[data-route]");
     if (!a) return;
     e.preventDefault();
-    window.__route = JSON.parse(a.getAttribute("data-route"));
-    render();
-    window.scrollTo(0, 0);
+    var r = JSON.parse(a.getAttribute("data-route"));
+    var cur = currentRoute();
+    if (r.anchor && cur.page === "view" && r.page === "view" && cur.view === r.view) { jumpTo(r.anchor); return; }
+    window.__route = r;
+    render().then(function () { r.anchor ? jumpTo(r.anchor) : window.scrollTo(0, 0); });
   });
+
+  function jumpTo(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
 
   function routeAttr(r) { return bundle ? " data-route='" + esc(JSON.stringify(r)) + "'" : ""; }
 
@@ -178,41 +185,87 @@
   function render() {
     var r = currentRoute();
     var job = r.page === "case" ? renderCase(r) : renderView(r.view);
-    job.catch(function (err) {
+    return job.then(after).catch(function (err) {
       app.innerHTML = '<main class="wrap error"><h1>This page could not load</h1><p>' + esc(err.message) +
         '</p><p><a href="' + viewHref("design") + '">Go to the portfolio</a></p></main>';
     });
   }
 
+  // Highlight the menu item for the section in view; reveal sections once as they scroll in.
+  var observer = null, revealer = null;
+  function after() {
+    var r = currentRoute();
+    root.setAttribute("data-page", r.page);
+    if (observer) observer.disconnect();
+    if (revealer) revealer.disconnect();
+    if (!bundle && location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+    setupFilters();
+    if (!("IntersectionObserver" in window)) return;
+    var links = [].slice.call(document.querySelectorAll(".menu a[data-sec]"));
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (l) { l.classList.toggle("is-current", l.getAttribute("data-sec") === en.target.id); });
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    ["top", "about", "projects", "contact"].forEach(function (id) { var el = document.getElementById(id); if (el) observer.observe(el); });
+    revealer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); revealer.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    [].slice.call(document.querySelectorAll(".section")).forEach(function (el) { revealer.observe(el); });
+  }
+
+  function setupFilters() {
+    var chips = [].slice.call(document.querySelectorAll(".chip"));
+    var cards = [].slice.call(document.querySelectorAll(".work-grid .card"));
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var f = chip.getAttribute("data-filter");
+        chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+        cards.forEach(function (c) { c.hidden = f !== "all" && c.getAttribute("data-group") !== f; });
+      });
+    });
+  }
+
   function header(site, view, onCase) {
     var tabs = Object.keys(VIEWS).map(function (v) {
-      var current = v === view;
       return '<a class="switch-opt" href="' + viewHref(v) + '"' + routeAttr({ page: "view", view: v }) +
-        (current ? ' aria-current="page"' : "") + ">" + VIEWS[v].label + "</a>";
+        (v === view ? ' aria-current="page"' : "") + ">" + VIEWS[v].label + "</a>";
+    }).join("");
+    var menu = [["about", "About"], ["projects", "Projects"], ["contact", "Contact"]].map(function (it) {
+      var href = (onCase ? viewHref(view) : "") + "#" + it[0];
+      return '<a href="' + href + '" data-sec="' + it[0] + '"' + routeAttr({ page: "view", view: view, anchor: it[0] }) + ">" + it[1] + "</a>";
     }).join("");
     return '<header class="site-head"><div class="wrap head-row">' +
-      '<a class="wordmark" href="' + viewHref(view) + '"' + routeAttr({ page: "view", view: view }) + ">" + esc(site.meta.name) + "</a>" +
-      '<nav class="switch" aria-label="Portfolio view">' + tabs + "</nav>" +
-      '<a class="head-link" href="' + (onCase ? viewHref(view) : "") + '#contact"' +
-      (bundle && onCase ? " data-route='" + esc(JSON.stringify({ page: "view", view: view })) + "'" : "") + ">Contact</a>" +
-      "</div></header>";
+      '<a class="wordmark" href="' + (onCase ? viewHref(view) : "#top") + '"' + routeAttr({ page: "view", view: view, anchor: "top" }) + ">" + esc(site.meta.name) + "</a>" +
+      '<nav class="menu" aria-label="Sections">' + menu + "</nav>" +
+      "</div></header>" +
+      // The live site has no view switch: each job application gets its own link (/design/ or /product/).
+      // The single-file preview shows one so both views can be checked.
+      (bundle ? '<nav class="preview-switch" aria-label="Preview view">Preview <span class="switch">' + tabs + "</span></nav>" : "");
+  }
+
+  function contactRows(m) {
+    var rows = [];
+    if (m.email) rows.push(["Email", '<a href="mailto:' + esc(m.email) + '">' + esc(m.email) + "</a>"]);
+    if (m.linkedin) rows.push(["LinkedIn", '<a href="' + esc(m.linkedin) + '" target="_blank" rel="noopener">' + esc(m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) + "</a>"]);
+    if (!rows.length) rows.push(["", '<mark class="todo">Email and LinkedIn go here</mark>']);
+    return '<dl class="contact-list">' + rows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + r[1] + "</dd></div>"; }).join("") + "</dl>";
+  }
+
+  function cvButton(m, view) {
+    var cv = m["cv_" + view];
+    return cv ? '<a class="button" href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>' : "";
   }
 
   function contact(site, view) {
-    var m = site.meta, rows = [];
-    if (m.email) rows.push(["Email", '<a href="mailto:' + esc(m.email) + '">' + esc(m.email) + "</a>"]);
-    if (m.phone) rows.push(["Phone", esc(m.phone)]);
-    if (m.linkedin) rows.push(["LinkedIn", '<a href="' + esc(m.linkedin) + '" target="_blank" rel="noopener">' + esc(m.linkedin.replace(/^https?:\/\/(www\.)?/, "")) + "</a>"]);
-    if (!rows.length) rows.push(["", '<mark class="todo">Email, phone and LinkedIn go here</mark>']);
-    var cv = m["cv_" + view];
-    return '<footer class="site-foot" id="contact"><div class="wrap foot-grid">' +
+    var m = site.meta;
+    return '<footer class="site-foot"><div class="wrap foot-grid">' +
       '<div><h2 class="foot-title">Get in touch</h2><p class="foot-note">' + esc(m.location || "") + "</p></div>" +
-      '<dl class="contact-list">' + rows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + r[1] + "</dd></div>"; }).join("") + "</dl>" +
-      (cv ? '<a class="button" href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>' : "") +
-      "</div></footer>";
+      contactRows(m) + cvButton(m, view) + "</div></footer>";
   }
 
-  function card(doc, view, size) {
+  function card(doc, view, size, groupLabel) {
     var m = doc.meta, linked = !!doc.body;
     var title = m.card_title || m.title;
     var summary = m["summary_" + view] || "";
@@ -221,7 +274,7 @@
       : '<span class="ph-title" aria-hidden="true">' + esc(title) + "</span>";
     var inner =
       '<div class="card-visual' + (m.image ? "" : " is-placeholder") + '">' + visual + "</div>" +
-      '<div class="card-text"><p class="card-meta">' + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
+      '<div class="card-text"><p class="card-meta">' + (groupLabel ? '<b>' + esc(groupLabel) + "</b>" : "") + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
       '<h3 class="card-title">' + esc(title) + "</h3>" +
       '<p class="card-summary">' + inline(summary) + "</p>" +
       (m.status === "draft" ? '<p class="card-flag">Draft</p>' : "") + "</div>";
@@ -230,34 +283,88 @@
       : '<div class="card card-' + size + ' card-static">' + inner + "</div>";
   }
 
-  function group(title, note, docs, view, size) {
-    if (!docs.length) return "";
-    return '<section class="group"><div class="group-head"><h2 class="group-title">' + title + "</h2>" +
-      (note ? '<p class="group-note">' + note + "</p>" : "") + "</div>" +
-      '<div class="grid grid-' + size + '">' + docs.map(function (d) { return card(d, view, size); }).join("") + "</div></section>";
+  function split(v) { return (v || "").split("|").map(function (x) { return x.trim(); }); }
+  function numbered(m, prefix) {
+    var out = [];
+    for (var n = 1; n <= 9; n++) if (m[prefix + n]) out.push(split(m[prefix + n]));
+    return out;
+  }
+
+  function timeline(items) {
+    return '<ul class="timeline">' + items.map(function (it) {
+      return "<li><h4>" + inline(it[0]) + "</h4>" + (it[1] ? "<p>" + inline(it[1]) + "</p>" : "") +
+        (it[2] ? '<p class="when">' + inline(it[2]) + "</p>" : "") + "</li>";
+    }).join("") + "</ul>";
   }
 
   function renderView(view) {
     return load("content/site.md").then(function (site) {
       var m = site.meta;
       var groups = view === "design"
-        ? [["Studies", "Projects from my MA in Visual & Experience Design", list(m.design_studies), "lg"],
-           ["Design in practice", "Screens and flows I designed in my payments work", list(m.design_practice), "md"],
-           ["More work", "", list(m.design_more), "sm"]]
-        : [["Case studies", "", list(m.product_cases), "lg"],
-           ["Short reads", "", list(m.product_short), "sm"]];
+        ? [["studies", "Studies", list(m.design_studies)],
+           ["practice", "Design in practice", list(m.design_practice)],
+           ["more", "More work", list(m.design_more)]]
+        : [["cases", "Case studies", list(m.product_cases)],
+           ["short", "Short reads", list(m.product_short)]];
+      groups = groups.filter(function (g) { return g[2].length; });
       var ids = [].concat.apply([], groups.map(function (g) { return g[2]; }));
       return Promise.all(ids.map(loadCase)).then(function (docs) {
         var byId = {};
         docs.forEach(function (d) { byId[d.id] = d; });
-        document.title = m.name + " — " + VIEWS[view].label;
-        app.innerHTML = header(site, view, false) +
-          '<main><section class="hero wrap"><h1 class="hero-line">' + inline(m[view + "_intro"] || "") + "</h1></section>" +
-          '<div class="wrap">' + groups.map(function (g) {
-            return group(g[0], g[1], g[2].map(function (id) { return byId[id]; }), view, g[3]);
-          }).join("") + "</div>" +
-          '<section class="about wrap" id="about"><h2 class="group-title">About</h2><div class="about-body">' + markdown(site.body) + "</div></section>" +
-          "</main>" + contact(site, view);
+        document.title = m.name + " — " + (m[view + "_role"] || VIEWS[view].label);
+
+        var photo = m.photo
+          ? '<img src="' + assetUrl(m.photo) + '" alt="Portrait of ' + esc(m.name) + '">'
+          : '<span class="photo-empty">Photo<br><small>content/images/photo.jpg · 4:5</small></span>';
+
+        var hero = '<section class="hero wrap" id="top">' +
+          '<div class="hero-text">' +
+            '<h1 class="hero-name">' + esc(m.name) + "</h1>" +
+            '<p class="hero-role">' + esc(m[view + "_role"] || "") + "</p>" +
+            '<p class="hero-intro">' + inline(m[view + "_intro"] || "") + "</p>" +
+            '<a class="button" href="#projects"' + routeAttr({ page: "view", view: view, anchor: "projects" }) + ">View projects</a>" +
+          "</div>" +
+          '<div class="hero-visual"><figure class="photo' + (m.photo ? "" : " is-empty") + '">' + photo + "</figure></div></section>";
+
+        var strengths = numbered(m, view + "_strength_");
+        var about = '<section class="section about wrap" id="about">' +
+          '<h2 class="section-title">' + inline(m.about_title || "About") + "</h2>" +
+          '<div class="about-cols">' +
+            '<div class="about-col"><h3 class="col-label">Profile</h3><div class="prose">' + markdown(site.body) + "</div></div>" +
+            '<div class="about-col"><h3 class="col-label">Experience</h3>' + timeline(numbered(m, "experience_")) +
+              '<h3 class="col-label">Languages</h3><p class="langs">' + list(m.languages).map(esc).join('<span aria-hidden="true"> · </span>') + "</p></div>" +
+            '<div class="about-col"><h3 class="col-label">Education</h3>' + timeline(numbered(m, "education_")) + "</div>" +
+          "</div>" +
+          (strengths.length ? '<div class="how"><h3 class="col-label">How I work</h3><ul class="strengths">' + strengths.map(function (s2) {
+            return "<li><h4>" + inline(s2[0]) + "</h4><p>" + inline(s2[1] || "") + "</p></li>";
+          }).join("") + "</ul></div>" : "") +
+          "</section>";
+
+        var chips = groups.length > 1
+          ? '<div class="chips" role="group" aria-label="Filter projects"><button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>' +
+            groups.map(function (g) { return '<button class="chip" type="button" data-filter="' + g[0] + '" aria-pressed="false">' + esc(g[1]) + "</button>"; }).join("") + "</div>"
+          : "";
+        var cards = groups.map(function (g) {
+          return g[2].map(function (id) { return card(byId[id], view, "grid", g[1]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" class="card'); }).join("");
+        }).join("");
+        var projects = '<section class="section projects wrap" id="projects">' +
+          '<h2 class="section-title">Projects</h2>' + chips + '<div class="work-grid">' + cards + "</div></section>";
+
+        var cv = m["cv_" + view];
+        var rows = [];
+        if (m.email) rows.push(["Email", '<a href="mailto:' + esc(m.email) + '">' + esc(m.email) + "</a>", "mail"]);
+        if (m.linkedin) rows.push(["LinkedIn", '<a href="' + esc(m.linkedin) + '" target="_blank" rel="noopener">' + esc(m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) + "</a>", "out"]);
+        if (cv) rows.push(["CV", '<a href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>', "down"]);
+        if (!rows.length) rows.push(["", '<mark class="todo">Email and LinkedIn go here</mark>', ""]);
+        var contactSec = '<section class="section contact" id="contact"><div class="wrap contact-grid">' +
+          '<div><h2 class="section-title">Let’s talk.</h2><p class="contact-lede">I’m looking for ' +
+          (view === "design" ? "UX and product design" : "product management") + " roles in Berlin and across Germany.</p></div>" +
+          '<ul class="contact-rows">' + rows.map(function (r2) {
+            return '<li class="icon-' + r2[2] + '"><span class="row-label">' + r2[0] + "</span>" + r2[1] + "</li>";
+          }).join("") + "</ul></div></section>";
+
+        app.innerHTML = header(site, view, false) + "<main>" + hero + about + projects + contactSec + "</main>" +
+          '<footer class="site-foot"><div class="wrap foot-row"><span>' + esc(m.name) + "</span><span>" + esc(m.location || "") + "</span></div></footer>";
       });
     });
   }

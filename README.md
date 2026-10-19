@@ -15,8 +15,12 @@
 
 모든 글은 `content/` 폴더에 있습니다. GitHub 웹에서 파일을 열고 연필 아이콘으로 고친 뒤 "Commit changes"를 누르면 1–2분 뒤 사이트에 반영됩니다.
 
-**`content/site.md`** — 이름, 연락처, CV, 첫 화면 문장, 프로젝트 순서, About
-- `email:`, `phone:`, `linkedin:` 뒤에 값을 넣으면 하단에 나타납니다. 비워두면 숨겨집니다.
+**`content/site.md`** — 이름, 사진, 연락처, CV, 첫 화면(직무·소개), About(학력·경력·언어·How I work), 프로젝트 순서
+- `#`으로 시작하는 줄은 메모라 사이트에 나오지 않습니다.
+- 학력·경력은 `education_1:`, `experience_1:` 처럼 번호를 붙이고 `제목 | 기관 | 기간` 형식으로 씁니다.
+- `email:`, `linkedin:` 뒤에 값을 넣으면 Contact 화면에 나타납니다 (LinkedIn은 https://로 시작하는 전체 주소).
+- `photo: images/photo.jpg` — 사진을 `content/images/`에 올리고 경로를 적습니다. 세로 4:5 비율이 가장 잘 맞습니다.
+- `design_strength_1:` ~ `_3`, `product_strength_1:` ~ `_3` — 뷰별 강점 3개. `제목 | 설명` 형식입니다.
 - `cv_design:` / `cv_product:` 에 `cv/CV_UX.pdf`처럼 파일 경로를 넣으면 뷰별 CV 다운로드 버튼이 생깁니다. PDF는 `cv/` 폴더에 올립니다. (경로는 `content/` 기준이 아니라 사이트 기준으로 `../cv/CV_UX.pdf`처럼 씁니다)
 - 순서 바꾸기: `design_studies: poom, bookiverse` 처럼 쉼표로 나열된 파일 이름의 순서를 바꿉니다. 빼면 그 뷰에서 숨겨집니다.
 - `---` 아래의 글이 About입니다.
