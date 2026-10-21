@@ -33,6 +33,8 @@
 - **`[대괄호 글]`은 노란색으로 표시됩니다.** 아직 채워야 할 곳이라는 뜻입니다. 공개 전에 모두 없어야 합니다.
 - 본문이 비어 있는 프로젝트(ALIXIR, YeaY)는 카드만 나오고 클릭되지 않습니다.
 
+**뷰별 본문** — `content/cases/<이름>.design.md` 또는 `<이름>.product.md`가 있으면, 그 링크(/design/, /product/)로 들어온 사람에게는 이 파일의 본문이 보입니다. 위쪽 key: value를 넣으면 기본 파일의 같은 항목을 덮어씁니다(예: role). 없으면 기본 파일 본문이 나옵니다. 지금은 aml.design.md, fee-tier.design.md가 있습니다.
+
 새 프로젝트를 넣으려면 `content/cases/`에 파일을 하나 만들고, `site.md`의 목록에 파일 이름을 추가합니다.
 
 ## 배포 (GitHub Pages)

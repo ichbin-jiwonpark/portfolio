@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 410" width="960" height="410" role="img" aria-label="Project timeline from first discussion to normal operations">
+<rect width="960" height="410" rx="12" fill="#f3f5f2"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#586561"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#24557f"/></marker></defs>
+<text x="24" y="38" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#17201e">From first discussion to normal operations</text>
+<path d="M40 92H930" stroke="#c9d0c9" stroke-width="2"/>
+<circle cx="48" cy="92" r="7" fill="#ffffff" stroke="#24557f" stroke-width="2"/>
+<text x="40" y="74" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">2019</text>
+<rect x="40" y="120" width="120" height="40" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="100.0" y="145.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">First discussed</text>
+<circle cx="188" cy="92" r="7" fill="#ffffff" stroke="#24557f" stroke-width="2"/>
+<text x="180" y="74" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">From 2020</text>
+<rect x="180" y="120" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="305.0" y="145.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Tender</text>
+<text x="305.0" y="163.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">legal &amp; procurement involved</text>
+<rect x="180" y="188" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="305.0" y="213.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Service policy</text>
+<text x="305.0" y="231.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">written by me</text>
+<rect x="180" y="256" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="305.0" y="281.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Back-office screens</text>
+<text x="305.0" y="299.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">drawn by two colleagues</text>
+<rect x="180" y="324" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="305.0" y="349.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Approval &amp; cancellation tests</text>
+<text x="305.0" y="367.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">settlement not testable yet</text>
+<circle cx="458" cy="92" r="7" fill="#24557f" stroke="#24557f" stroke-width="2"/>
+<text x="450" y="74" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">April 2021</text>
+<rect x="450" y="120" width="210" height="58" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="555.0" y="145.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Launch</text>
+<text x="555.0" y="163.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">one merchant group</text>
+<rect x="450" y="188" width="210" height="76" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="555.0" y="213.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Service by service</text>
+<text x="555.0" y="231.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">recurring and manual</text>
+<text x="555.0" y="249.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">card payments first</text>
+<circle cx="688" cy="92" r="7" fill="#ffffff" stroke="#24557f" stroke-width="2"/>
+<text x="680" y="74" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">After launch</text>
+<rect x="680" y="120" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="805.0" y="145.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Statement-name reference</text>
+<text x="805.0" y="163.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">tested with every card company</text>
+<rect x="680" y="188" width="250" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="805.0" y="213.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Card-issuer benefits</text>
+<text x="805.0" y="231.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">traced case by case</text>
+<rect x="680" y="256" width="250" height="40" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="805.0" y="281.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Normal operations</text>
+</svg>

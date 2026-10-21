@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960" height="500" role="img" aria-label="Onboarding a new business customer, before and after the AML system">
+<rect width="960" height="500" rx="12" fill="#f3f5f2"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#586561"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#24557f"/></marker></defs>
+<text x="24" y="38" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#17201e">Onboarding a new business customer, before and after</text>
+<text x="24" y="70" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#586561">Before</text>
+<rect x="24" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="88.0" y="111.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Contract and</text>
+<text x="88.0" y="129.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">documents</text>
+<path d="M155 115.0L175 115.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="180" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="244.0" y="111.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Document</text>
+<text x="244.0" y="129.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">check</text>
+<path d="M311 115.0L331 115.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="336" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="400.0" y="111.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Supplier record</text>
+<text x="400.0" y="129.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">in the ERP</text>
+<path d="M467 115.0L487 115.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="492" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="556.0" y="111.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Finance team</text>
+<text x="556.0" y="129.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">review</text>
+<path d="M623 115.0L643 115.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="648" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="712.0" y="111.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Merchant setup</text>
+<text x="712.0" y="129.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">typed by hand</text>
+<path d="M779 115.0L799 115.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="804" y="84" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="868.0" y="120.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Service live</text>
+<path d="M244.0 148L244.0 176L88.0 176L88.0 152" stroke="#586561" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="166.0" y="192" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">missing or mismatched: request again</text>
+<path d="M556.0 148L556.0 176L400.0 176L400.0 152" stroke="#586561" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="478.0" y="192" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">not approved: correct and resend</text>
+<text x="24" y="276" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#24557f">With the AML system</text>
+<rect x="24" y="290" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="88.0" y="317.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Contract and</text>
+<text x="88.0" y="335.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">documents</text>
+<path d="M155 321.0L175 321.0" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="180" y="290" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="244.0" y="317.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Document</text>
+<text x="244.0" y="335.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">check</text>
+<path d="M311 321.0L331 321.0" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="336" y="290" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="400.0" y="317.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Customer record</text>
+<text x="400.0" y="335.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">in the ERP</text>
+<path d="M467 321.0L487 321.0" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="492" y="290" width="128" height="62" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="556.0" y="317.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Customer due</text>
+<text x="556.0" y="335.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">diligence</text>
+<path d="M623 321.0L643 321.0" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="648" y="290" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="712.0" y="317.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Merchant setup</text>
+<text x="712.0" y="335.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">synced from ERP</text>
+<path d="M779 321.0L799 321.0" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="804" y="290" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="868.0" y="326.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Service live</text>
+<path d="M244.0 354L244.0 382L88.0 382L88.0 358" stroke="#586561" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="166.0" y="398" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">missing or mismatched: request again</text>
+<path d="M556.0 354L556.0 396" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<rect x="481" y="400" width="150" height="44" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="556.0" y="418.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Rejected</text>
+<text x="556.0" y="436.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">no service</text>
+<text x="648" y="428" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">Details checked by due diligence feed the</text>
+<text x="648" y="444" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">merchant record instead of being re-typed.</text>
+</svg>

@@ -40,6 +40,20 @@
 
   function loadCase(id) { return load("content/cases/" + id + ".md").then(function (d) { d.id = id; return d; }); }
 
+  /* A case can have a view-specific body: content/cases/<id>.<view>.md.
+     Its front matter overrides the base file; without it, the base body is used. */
+  function loadCaseFor(id, view) {
+    var path = "content/cases/" + id + "." + view + ".md";
+    var extra = (bundle && !(path in bundle)) ? Promise.resolve(null) : load(path).catch(function () { return null; });
+    return Promise.all([loadCase(id), extra]).then(function (res) {
+      var base = res[0], v = res[1];
+      if (!v) return base;
+      var meta = {}; Object.keys(base.meta).forEach(function (k) { meta[k] = base.meta[k]; });
+      Object.keys(v.meta).forEach(function (k) { meta[k] = v.meta[k]; });
+      return { id: id, meta: meta, body: v.body || base.body };
+    });
+  }
+
   /* ---------- front matter + markdown ---------- */
 
   function parseDoc(text) {
@@ -269,11 +283,12 @@
     var m = doc.meta, linked = !!doc.body;
     var title = m.card_title || m.title;
     var summary = m["summary_" + view] || "";
-    var visual = m.image
-      ? '<img src="' + assetUrl(m.image) + '" alt="" loading="lazy">'
+    var img = m["image_" + view] || m.image;
+    var visual = img
+      ? '<img src="' + assetUrl(img) + '" alt="" loading="lazy">'
       : '<span class="ph-title" aria-hidden="true">' + esc(title) + "</span>";
     var inner =
-      '<div class="card-visual' + (m.image ? "" : " is-placeholder") + '">' + visual + "</div>" +
+      '<div class="card-visual' + (img ? "" : " is-placeholder") + '">' + visual + "</div>" +
       '<div class="card-text"><p class="card-meta">' + (groupLabel ? '<b>' + esc(groupLabel) + "</b>" : "") + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
       '<h3 class="card-title">' + esc(title) + "</h3>" +
       '<p class="card-summary">' + inline(summary) + "</p>" +
@@ -301,11 +316,11 @@
     return load("content/site.md").then(function (site) {
       var m = site.meta;
       var groups = view === "design"
-        ? [["studies", "Studies", list(m.design_studies)],
-           ["practice", "Design in practice", list(m.design_practice)],
-           ["more", "More work", list(m.design_more)]]
-        : [["cases", "Case studies", list(m.product_cases)],
-           ["short", "Short reads", list(m.product_short)]];
+        ? [["studies", "Studies", list(m.design_studies), "Study"],
+           ["practice", "Design in practice", list(m.design_practice), "In practice"],
+           ["more", "More work", list(m.design_more), "More work"]]
+        : [["cases", "Case studies", list(m.product_cases), "Case study"],
+           ["short", "Short reads", list(m.product_short), "Short read"]];
       groups = groups.filter(function (g) { return g[2].length; });
       var ids = [].concat.apply([], groups.map(function (g) { return g[2]; }));
       return Promise.all(ids.map(loadCase)).then(function (docs) {
@@ -345,7 +360,7 @@
             groups.map(function (g) { return '<button class="chip" type="button" data-filter="' + g[0] + '" aria-pressed="false">' + esc(g[1]) + "</button>"; }).join("") + "</div>"
           : "";
         var cards = groups.map(function (g) {
-          return g[2].map(function (id) { return card(byId[id], view, "grid", g[1]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" class="card'); }).join("");
+          return g[2].map(function (id) { return card(byId[id], view, "grid", g[3]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" class="card'); }).join("");
         }).join("");
         var projects = '<section class="section projects wrap" id="projects">' +
           '<h2 class="section-title">Projects</h2>' + chips + '<div class="work-grid">' + cards + "</div></section>";
@@ -371,7 +386,7 @@
 
   function renderCase(r) {
     if (!r.id) return Promise.reject(new Error("No project was given in the link."));
-    return Promise.all([load("content/site.md"), loadCase(r.id)]).then(function (res) {
+    return Promise.all([load("content/site.md"), loadCaseFor(r.id, r.view)]).then(function (res) {
       var site = res[0], doc = res[1], m = doc.meta;
       document.title = (m.card_title || m.title) + " — " + site.meta.name;
       var meta = META_FIELDS.filter(function (f) { return m[f[0]]; }).map(function (f) {
@@ -385,8 +400,9 @@
         '<p class="cs-kicker">' + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
         '<h1 class="cs-title">' + inline(m.title || "") + "</h1>" +
         (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") +
-        (m.image ? '<figure class="cs-cover"><img src="' + assetUrl(m.image) + '" alt=""></figure>' : "") +
-        '<dl class="cs-meta">' + meta + "</dl></section>" +
+        ((m["image_" + r.view] || m.image) ? '<figure class="cs-cover"><img src="' + assetUrl(m["image_" + r.view] || m.image) + '" alt=""></figure>' : "") +
+        '<dl class="cs-meta">' + meta + "</dl>" +
+        (m.note ? '<p class="cs-note">' + inline(m.note) + "</p>" : "") + "</section>" +
         '<article class="wrap cs-article">' + sections(markdown(doc.body)) + "</article>" +
         '<nav class="wrap cs-end">' + back + "</nav></main>" + contact(site, r.view);
     });

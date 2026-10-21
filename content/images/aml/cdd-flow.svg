@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450" width="960" height="450" role="img" aria-label="Customer due diligence flow">
+<rect width="960" height="450" rx="12" fill="#f3f5f2"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#586561"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#24557f"/></marker></defs>
+<text x="24" y="38" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#17201e">Customer due diligence: registering a business customer</text>
+<text x="24" y="58" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">Access is separated by service: payment gateway · gift card · pay</text>
+<rect x="24" y="92" width="128" height="62" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="88.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Duplicate check</text>
+<text x="88.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">must pass first</text>
+<rect x="179" y="92" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="243.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Business details</text>
+<text x="243.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">Step 1</text>
+<path d="M152 123.0L177 123.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="334" y="92" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="398.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Representative</text>
+<text x="398.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">Step 2</text>
+<path d="M307 123.0L332 123.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="489" y="92" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="553.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Beneficial owner</text>
+<text x="553.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">Step 3 · exemptions</text>
+<path d="M462 123.0L487 123.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="644" y="92" width="128" height="62" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="708.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Agent</text>
+<text x="708.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">Step 4</text>
+<path d="M617 123.0L642 123.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="799" y="92" width="128" height="62" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="863.0" y="118.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Confirm</text>
+<text x="863.0" y="136.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">Step 5 · record locks</text>
+<path d="M772 123.0L797 123.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<path d="M54 154L54 190" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)" stroke-dasharray="5 4"/>
+<text x="24" y="208" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">Already registered,</text>
+<text x="24" y="224" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">not due yet:</text>
+<text x="24" y="240" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">no new check</text>
+<path d="M863.0 154L863.0 288" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="627" y="290" width="300" height="70" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="777.0" y="320.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Risk assessment, next day</text>
+<text x="777.0" y="338.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">with watch-list screening</text>
+<rect x="417" y="235" width="150" height="40" rx="20" fill="#e5f1e8" stroke="#3d7a4f" stroke-width="1.2"/>
+<text x="492.0" y="252" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#3d7a4f">Approved</text>
+<text x="492.0" y="267" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">service can start</text>
+<path d="M627 325.0L569 255.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="417" y="293" width="150" height="40" rx="20" fill="#fbf1dc" stroke="#9a6b12" stroke-width="1.2"/>
+<text x="492.0" y="310.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#9a6b12">On hold</text>
+<text x="492.0" y="325.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" fill="#586561">approval pending</text>
+<path d="M627 325.0L569 313.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="417" y="351" width="150" height="40" rx="20" fill="#f8e4e2" stroke="#a2372f" stroke-width="1.2"/>
+<text x="492.0" y="368" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#a2372f">Rejected</text>
+<text x="492.0" y="383" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="400" fill="#586561">high risk / watch list</text>
+<path d="M627 325.0L569 371.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<path d="M417 255.0 H134 V156" stroke="#24557f" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#b)"/>
+<text x="148" y="275.0" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#24557f">Re-verification: every 3 years,</text>
+<text x="148" y="291.0" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#24557f">every year for high-risk customers</text>
+<text x="777" y="388" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">High risk: enhanced due diligence first</text>
+<text x="777" y="404" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" fill="#586561">(purpose of transactions, source of funds)</text>
+</svg>

@@ -36,7 +36,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-t
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.65; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 6; background: var(--paper); }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.12; text-wrap: balance; margin: 0; }
@@ -211,3 +211,19 @@ tr:last-child td { border-bottom: 0; }
   background: var(--ink); color: var(--paper); font-family: var(--font-display); font-size: var(--step--1);
 }
 .preview-switch .switch { border-color: transparent; background: var(--paper); }
+
+/* Diagrams keep a readable size on phones and scroll sideways */
+@media (max-width: 720px) {
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .figure img[src*=".svg"], .figure img[src^="data:image/svg"] { width: 720px; max-width: none; }
+}
+
+/* A paragraph that is only italic text, right under an image, is its caption */
+.figure + p:has(> em:only-child) { margin-top: -0.6em; font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+
+/* Tall screen images keep a sensible height on wide screens */
+@media (min-width: 721px) {
+  .figure img:not([src$=".svg"]):not([src^="data:image/svg"]) { width: auto; max-width: 100%; max-height: 680px; }
+}
+
+.cs-note{margin:18px 0 0;max-width:62ch;font-size:13px;line-height:1.5;color:var(--muted);padding-left:12px;border-left:2px solid var(--line)}

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="960" height="360" role="img" aria-label="Service process: the reader path and the author path meet at support">
+<rect width="960" height="360" rx="12" fill="#f3f5f2"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#586561"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#24557f"/></marker></defs>
+<text x="24" y="38" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="600" fill="#17201e">Two journeys that meet at support</text>
+<text x="24" y="124.0" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">Reader</text>
+<rect x="130" y="90" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="220.0" y="115.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Discover</text>
+<text x="220.0" y="133.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">new authors in the feed</text>
+<path d="M314 119.0L324 119.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="90" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="420.0" y="115.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Read</text>
+<text x="420.0" y="133.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">first chapter free</text>
+<path d="M514 119.0L524 119.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="530" y="90" width="180" height="58" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="620.0" y="115.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Support</text>
+<text x="620.0" y="133.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">pay and leave feedback</text>
+<path d="M714 119.0L724 119.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="730" y="90" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="820.0" y="115.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Reward</text>
+<text x="820.0" y="133.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">exclusive extras</text>
+<text x="24" y="284.0" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#24557f">Author</text>
+<rect x="130" y="250" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="220.0" y="275.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Publish</text>
+<text x="220.0" y="293.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">post a book</text>
+<path d="M314 279.0L324 279.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="330" y="250" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="420.0" y="275.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Reach</text>
+<text x="420.0" y="293.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">readers find it</text>
+<path d="M514 279.0L524 279.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="530" y="250" width="180" height="58" rx="8" fill="#e3ecf4" stroke="#24557f" stroke-width="1.5"/>
+<text x="620.0" y="275.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Get support</text>
+<text x="620.0" y="293.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">funds and feedback</text>
+<path d="M714 279.0L724 279.0" stroke="#586561" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+<rect x="730" y="250" width="180" height="58" rx="8" fill="#ffffff" stroke="#c9d0c9" stroke-width="1.5"/>
+<text x="820.0" y="275.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#17201e">Grow</text>
+<text x="820.0" y="293.0" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#586561">motivation to continue</text>
+<path d="M620.0 152L620.0 244" stroke="#24557f" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+<text x="630.0" y="205" text-anchor="start" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="400" fill="#24557f">support links the two</text>
+</svg>
