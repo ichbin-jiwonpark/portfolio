@@ -4,8 +4,8 @@ location: Berlin, Germany
 email: g.now0205@gmail.com
 linkedin: https://www.linkedin.com/in/jiw0npark
 photo: images/photo.jpg
-cv_design: cv/Jiwon_Park_CV_UX.pdf
-cv_product: cv/Jiwon_Park_CV_Payments_PM.pdf
+cv_design: https://drive.google.com/file/d/1eR8KlN-XlZzvYY5IilSXTUrT4L-DxtXQ/view?usp=sharing
+cv_product: https://drive.google.com/file/d/1aQUIFYs23xZOWo7NZhJKKT8G1KqFESK9/view?usp=sharing
 
 # First screen, per view
 design_role: UX / Product Designer

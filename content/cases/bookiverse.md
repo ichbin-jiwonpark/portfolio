@@ -12,6 +12,7 @@ grade: 92 / 100
 outcome: Capstone graded 92/100; not yet tested with real users
 result: Grade 92 / 100
 line_design: Readers discover and support new authors; authors see who reads them and what they think
+prototype: https://www.figma.com/proto/xbSBs3UBhM9zGSCKYWB5wA/Capstone-Project_Bookiverse?page-id=0%3A1&node-id=20-296&starting-point-node-id=20%3A296&scaling=scale-down&content-scaling=fixed&show-proto-sidebar=1
 ---
 
 ## Background

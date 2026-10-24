@@ -12,6 +12,7 @@ grade: 94.1 / 100
 outcome: Prototype tested with one participant; master's thesis graded 94.1/100
 result: Grade 94.1 / 100
 line_design: A wellbeing app where rest counts as progress, built on the flow of Taekwondo poomsae
+prototype: https://www.figma.com/proto/IQ1vXXbg8gIHiIltZjXSFI/Graduation-thesis?page-id=8%3A27&node-id=150-666&starting-point-node-id=150%3A666&scaling=contain&content-scaling=fixed&show-proto-sidebar=1
 ---
 
 ## Background

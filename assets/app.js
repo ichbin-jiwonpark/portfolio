@@ -218,6 +218,7 @@
     if (!bundle && location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
     setupFilters();
     keepWords();
+    setupEmailCopy();
     if (!("IntersectionObserver" in window)) return;
     var links = [].slice.call(document.querySelectorAll(".menu a[data-sec]"));
     var screens = [].slice.call(document.querySelectorAll(".screen"));
@@ -247,6 +248,40 @@
     [].slice.call(document.querySelectorAll(".prose p, .how-cards p, .hero-intro, .card-summary, .tl p, .tl-bullets li, .cs-lede, .cs-body p, .cs-body li, .tldr dd, .contact-lede")).forEach(function (el) {
       var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
       while ((n = w.nextNode())) if (/\w-\w/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(\w)-(?=\w)/g, "$1\u2011");
+    });
+  }
+
+  // Clicking an email address opens a small menu: write in Gmail or Outlook on the web, use the mail app, or copy.
+  function setupEmailCopy() {
+    [].slice.call(document.querySelectorAll('a[href^="mailto:"]')).forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var addr = a.getAttribute("href").replace(/^mailto:/, ""), q = encodeURIComponent(addr);
+        var old = document.querySelector(".mail-menu"); if (old) old.remove();
+        var menu = document.createElement("div");
+        menu.className = "mail-menu"; menu.setAttribute("role", "dialog"); menu.setAttribute("aria-label", "Write an email");
+        menu.innerHTML = '<p class="micro">Write to ' + esc(addr) + "</p>" +
+          '<a href="https://mail.google.com/mail/?view=cm&fs=1&to=' + q + '" target="_blank" rel="noopener">Gmail <span aria-hidden="true">↗</span></a>' +
+          '<a href="https://outlook.office.com/mail/deeplink/compose?to=' + q + '" target="_blank" rel="noopener">Outlook <span aria-hidden="true">↗</span></a>' +
+          '<a href="mailto:' + esc(addr) + '">Mail app</a>' +
+          '<button type="button" class="mm-copy">Copy address</button>';
+        document.body.appendChild(menu);
+        var r = a.getBoundingClientRect();
+        menu.style.left = Math.min(r.left, window.innerWidth - menu.offsetWidth - 16) + "px";
+        menu.style.top = (r.bottom + 8 + menu.offsetHeight > window.innerHeight ? r.top - menu.offsetHeight - 8 : r.bottom + 8) + "px";
+        menu.querySelector(".mm-copy").addEventListener("click", function () {
+          var b2 = this; var ok = function () { b2.textContent = "Copied ✓"; setTimeout(function () { menu.remove(); }, 900); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(ok, ok); else ok();
+        });
+        [].slice.call(menu.querySelectorAll("a")).forEach(function (x) { x.addEventListener("click", function () { setTimeout(function () { menu.remove(); }, 50); }); });
+        setTimeout(function () {
+          var close = function (ev) { if (!menu.contains(ev.target)) { menu.remove(); document.removeEventListener("click", close); document.removeEventListener("keydown", esc2); window.removeEventListener("scroll", close2); } };
+          var esc2 = function (ev) { if (ev.key === "Escape") close({ target: document.body }); };
+          var close2 = function () { close({ target: document.body }); };
+          document.addEventListener("click", close); document.addEventListener("keydown", esc2); window.addEventListener("scroll", close2, { passive: true });
+        }, 0);
+        menu.querySelector("a").focus();
+      });
     });
   }
 
@@ -308,7 +343,7 @@
 
   function cvButton(m, view) {
     var cv = m["cv_" + view];
-    return cv ? '<a class="button" href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>' : "";
+    return cv ? '<a class="button" href="' + assetUrl(cv) + '" target="_blank" rel="noopener">View CV (PDF)</a>' : "";
   }
 
   function contact(site, view) {
@@ -484,13 +519,13 @@
         var rows = [];
         if (m.email) rows.push(["Email", '<a href="mailto:' + esc(m.email) + '">' + esc(m.email) + "</a>", "mail"]);
         if (m.linkedin) rows.push(["LinkedIn", '<a href="' + esc(m.linkedin) + '" target="_blank" rel="noopener">' + esc(m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) + "</a>", "out"]);
-        if (cv) rows.push(["CV", '<a href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>', "down"]);
+        if (cv) rows.push(["CV", '<a href="' + assetUrl(cv) + '" target="_blank" rel="noopener">View CV (PDF)</a>', "down"]);
         if (!rows.length) rows.push(["", '<mark class="todo">Email and LinkedIn go here</mark>', ""]);
         var lk = m.linkedin ? m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "") : "";
         var boxes = [];
         if (m.email) boxes.push(["Email", esc(m.email), "mailto:" + esc(m.email), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/></svg>', ""]);
         if (m.linkedin) boxes.push(["LinkedIn", esc(lk), esc(m.linkedin), '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.65v5.15h-4z"/></svg>', ' target="_blank" rel="noopener"']);
-        if (cv) boxes.push(["CV", "Download CV · PDF", assetUrl(cv), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg>', ' target="_blank" rel="noopener"']);
+        if (cv) boxes.push(["CV", "View CV · PDF", assetUrl(cv), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg>', ' target="_blank" rel="noopener"']);
         var contactSec = '<section class="section screen contact" id="contact" data-sec="contact"><div class="wrap c-center">' +
           '<p class="micro dot">04 — Contact</p><h2 class="section-title">' + inline(m["contact_title_" + view] || "Let’s talk.") + "</h2>" +
           '<p class="contact-lede">' + (m["contact_lede_" + view] ? m["contact_lede_" + view].split(" || ").map(inline).join("<br>") : "I’m looking for " + (view === "design" ? "UX and product design" : "product management") + " roles in Berlin and across Germany.") + "</p>" +
@@ -531,6 +566,7 @@
         (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") + box +
         ((m["image_" + r.view] || m.image) ? '<figure class="cs-cover"><img src="' + assetUrl(m["image_" + r.view] || m.image) + '" alt=""></figure>' : "") +
         '<dl class="cs-meta">' + meta + "</dl>" +
+        (m.prototype ? '<p class="cs-links"><a class="button" href="' + esc(m.prototype) + '" target="_blank" rel="noopener">View prototype in Figma <span aria-hidden="true">↗</span></a></p>' : "") +
         (m.note ? '<p class="cs-note">' + inline(m.note) + "</p>" : "") + "</section>" +
         '<article class="wrap cs-article">' + sections(markdown(doc.body)) + "</article>" +
         '<nav class="wrap cs-end">' + back + "</nav></main>" + contact(site, r.view);
