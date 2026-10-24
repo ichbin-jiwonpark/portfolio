@@ -12,6 +12,13 @@ timeline: Feb 2023 – Feb 2024 · system live Nov 2023
 platform: Internal back-office (web)
 users: Sales-support staff who register and verify business customers
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following the structure, fields and rules of the implemented system. Company materials are not reproduced.
+outcome: System live in November 2023; the company met its AML obligations within the deadline
+result: Launched in Nov. 2023
+tldr_problem: A new legal AML duty for electronic financial companies. Customer checks were manual, spread across teams, and left little evidence.
+tldr_role: Project lead and single point of contact for seven internal teams and the vendor. I designed the customer due diligence flow and screens.
+tldr_impact: System live in November 2023, and AML obligations met within the deadline. Every verification now leaves evidence in the system. The revised rules were approved by the board in February 2024.
+line_design: A step-by-step due diligence flow where every check, lock and branch follows the law
+line_product: Led a payment company's first AML system, from the law and vendor choice to launch
 ---
 
 ## Background
@@ -20,7 +27,7 @@ A change in Korean regulation made licensed electronic payment companies, includ
 
 For a payment gateway, the customer is the merchant: the business that signs the contract, whether a sole proprietor or a company. The company had no AML system for them. The project existed to meet this obligation on top of a payment service that was already running every day.
 
-## Discovery
+## The problem
 
 Before the project, AML-related work was spread across departments and done by hand. Customer documents were checked by eye. Each check needed a separate data request to engineering. Suspicious-transaction monitoring ran as monitor, handle internally, close, with little left on record. The internal rules for electronic financial business had not been revised since they were first written in 2019.
 
@@ -53,7 +60,14 @@ Because the work was scattered, it had been treated as unclear and low-priority.
 
 I started without knowing the legal details, so I learned the regulation and its requirements first. I then collected requirements from every department involved and became the single point where questions, requirements and confirmation requests came together: from compliance and legal, HR, finance, information security, the ERP team, engineering and the vendor.
 
-## Ideate
+## Key decisions
+
+- **Vendor:** compared three to five AML vendors and, with my senior, chose the one other payment gateways used, for its PG experience.
+- **Duplicate check before a new record:** a business already verified is not re-verified early, so re-verification dates stay intact.
+- **Lock after confirmation:** due diligence must be complete before service starts, which means extra steps for staff.
+- **Permissions split by service** (payment gateway, gift card, pay), because each has different staff and customers.
+
+## Building the system
 
 **Choosing the system.** I researched AML solution providers in Korea and shortlisted several. My senior checked through industry contacts which solution other payment companies had adopted, and we chose that vendor for its experience with payment gateways.
 
@@ -94,7 +108,7 @@ Behind the registration screens, the due diligence itself runs as one flow, for 
 
 ![Inside customer due diligence: the check, risk assessment, enhanced review for high-risk customers, and the outcomes](images/aml/cdd-decisions.svg)
 
-## Outcome
+## What was built
 
 The back-office screens were implemented almost exactly as designed.
 
@@ -106,7 +120,7 @@ The back-office screens were implemented almost exactly as designed.
 
 *After Confirm, the record locks until the risk result arrives the next day. A high-risk customer is put on hold for enhanced due diligence and re-verified every year.*
 
-## Delivery & result
+## Launch and result
 
 **Delivery.** I took part in the full data-integration and system-planning process with engineering, the ERP team and the vendor. The system went live in November 2023. Alongside it, I revised the company's internal rules for electronic financial business and wrote the registration manual (v2.0, October 2023) for the sales-support team, including as-is and to-be process maps. In February 2024, the completed project and the revised rules were reported to the board for approval.
 

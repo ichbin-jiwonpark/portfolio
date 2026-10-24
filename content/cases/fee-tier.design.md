@@ -83,7 +83,7 @@ The screens below follow the specification I co-wrote with a planning colleague,
 All four steps were built as designed: source-data upload and lookup, fee registration per tier, one screen for card-company merchant data, and bulk updates of processing groups. Alongside the screens, I reorganised the processing groups to match the fee tiers and redefined how they are set up. Their names and structure had not changed since the team was founded, nearly 20 years earlier.
 
 - The tool went live before I left in July 2024 and was used for the half-yearly update from the second half of 2024, as former colleagues told me
-- By my estimate, the update went from about three weeks of manual work per half-year to a few hours
+- By my estimate, the half-yearly update went from about three weeks of manual work to about a day. Uploading the association's file took two to three hours, because the system ran the comparison itself; after that, the work was applying the changes and monitoring them
 - The colleagues who run it told me human error dropped sharply, there was far less to keep an eye on, and the time went to other work
 
 ## Reflection

@@ -9,6 +9,9 @@ role: Solo: research, concept, UX and UI design, prototype
 platform: Mobile app concept · Figma prototype
 timeline: Capstone project · final presentation January 2026
 grade: 92 / 100
+outcome: Capstone graded 92/100; not yet tested with real users
+result: Grade 92 / 100
+line_design: Readers discover and support new authors; authors see who reads them and what they think
 ---
 
 ## Background

@@ -9,6 +9,9 @@ role: Solo: research, concept, UX and UI design, prototype, usability testing
 platform: Mobile app concept · Figma prototype
 timeline: Master's thesis · submitted July 2026
 grade: 94.1 / 100
+outcome: Prototype tested with one participant; master's thesis graded 94.1/100
+result: Grade 94.1 / 100
+line_design: A wellbeing app where rest counts as progress, built on the flow of Taekwondo poomsae
 ---
 
 ## Background

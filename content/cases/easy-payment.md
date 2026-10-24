@@ -10,6 +10,12 @@ timeline: CGV: about one year, 2022 · CJ The Market: pilot from Feb 2023
 platform: Merchant mobile app (payments side)
 image: images/easy-pay/cover.jpg
 note: The diagram is drawn for this portfolio. The checkout screens at the end are from the live app, shown for reference only, with card details replaced.
+outcome: Launched in the cinema app in 2022; the setup was reused for the group's online food store (pilot from February 2023) and became the base of CJ PAY, launched February 2024
+result: Became the base of CJ PAY (2024)
+tldr_problem: Card checkout took four steps, two of them outside the app.
+tldr_role: Team member with a senior colleague: reference data, merchant IDs with eight card companies, processing and authentication setup, testing.
+tldr_impact: Two steps inside the app. The setup was reused and became the base of CJ PAY in 2024.
+line_product: Card checkout cut from four steps to two, connected with eight card companies
 ---
 
 ## Background

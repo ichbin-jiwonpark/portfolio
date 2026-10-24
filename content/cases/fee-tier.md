@@ -12,6 +12,13 @@ timeline: Specification Oct 2023 · released before I left in July 2024 · in us
 platform: Internal back-office (web)
 users: Internal operations staff who run the half-yearly fee update
 note: Screens and diagrams are redrawn for this portfolio with fictional merchants and fee rates, following the specification I co-wrote and the implemented system. Internal documents are not reproduced.
+outcome: Live from the second half of 2024. By my estimate, the half-yearly update went from about three weeks of manual work to about a day
+result: Launched in Jul. 2024
+tldr_problem: Every half-year, regulated fee tiers were updated through a 9-step manual Excel process across four roles. An error meant a wrong card fee, which led to a refund to the merchant or a loss for the company.
+tldr_role: I mapped the process and designed the screens, and co-wrote the specification with a planning colleague.
+tldr_impact: Live from the second half of 2024. By my estimate, the update went from about three weeks to about a day. Former colleagues report far fewer errors.
+line_design: A 9-step Excel process mapped and replaced by upload, lookup and bulk-update screens
+line_product: A three-week, error-prone Excel process turned into about a day of upload and checks
 ---
 
 ## Background
@@ -22,7 +29,7 @@ For a payment service provider, that list has to turn into three things: the rig
 
 A mistake has a direct cost. If a merchant's payments run under the wrong processing group, the wrong card fee is applied. Then either the company pays part of the fee back to the merchant, or the card company charges its general rate and the company absorbs the difference.
 
-## Discovery
+## The problem
 
 The work started each time the association's raw data arrived as text files. I prepared an Excel check template and a list of tasks for engineering, and shared them with the team by email. From there, the update ran as a 9-step manual process across four roles. I mapped it step by step to find where errors entered.
 
@@ -38,7 +45,13 @@ The work started each time the association's raw data arrived as text files. I p
 
 **What the map showed:** the problem was not one bad screen. Data was re-typed between people and files, so no one could check it against the source, and errors became visible only after the new fees had gone live.
 
-## Ideate
+## Key decisions
+
+- **Source data first:** staff upload the association's original file instead of copying it, so the lists can be checked against the source.
+- **New screens next to the existing ones,** so live payments were touched as little as possible.
+- **Reorganized the VAN groups,** unchanged for about 20 years, so that groups match the fee tiers. This is the decision I'm proudest of.
+
+## The solution
 
 I split the improvement into four steps and started with the root cause: getting the source data into the system, visible and checkable.
 
@@ -72,11 +85,11 @@ The screens below follow the specification I co-wrote with a planning colleague,
 
 *Step 2: fees for every tier, registered once per card company. Clicking a tier copies the first row down, and one rate can be applied to all when the card companies charge the same.*
 
-## Outcome
+## What was built
 
 All four steps were built as designed: source-data upload and lookup, fee registration per tier, one screen for card-company merchant data, and bulk updates of processing groups.
 
-## Delivery & result
+## Launch and result
 
 The back-office system was in daily use for payments, so the constraint was clear: change as little of it as possible. In meetings with the back-office developer, we worked out an implementation within that limit.
 
@@ -89,7 +102,7 @@ Alongside the screens, I reorganised the processing groups to match the fee tier
 **Result.**
 
 - The tool went live before I left in July 2024 and was used for the half-yearly update from the second half of 2024, as former colleagues told me
-- By my estimate, the update went from about three weeks of manual work per half-year to a few hours
+- By my estimate, the half-yearly update went from about three weeks of manual work to about a day. Uploading the association's file took two to three hours, because the system ran the comparison itself; after that, the work was applying the changes and monitoring them
 - The colleagues who run it told me human error dropped sharply, there was far less to keep an eye on, and the time went to other work
 
 ## Reflection

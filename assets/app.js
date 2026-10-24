@@ -9,6 +9,7 @@
   };
 
   var META_FIELDS = [
+    ["outcome", "Outcome"],
     ["role", "Role"],
     ["team", "Team"],
     ["timeline", "Timeline"],
@@ -19,6 +20,7 @@
   ];
 
   var root = document.documentElement;
+  if (!root.getAttribute("lang")) root.setAttribute("lang", "en"); // needed for hyphenation
   var BASE = root.getAttribute("data-base") || "./";
   var bundle = window.__PORTFOLIO_BUNDLE || null; // single-file preview build
   var cache = {};
@@ -72,7 +74,8 @@
   }
 
   function list(value) {
-    return (value || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    // split on commas that are not inside parentheses
+    return (value || "").split(/,(?![^()]*\))/).map(function (s) { return s.trim(); }).filter(Boolean);
   }
 
   function esc(s) {
@@ -149,12 +152,12 @@
 
   // Wrap each "## Heading" and what follows into a section with a side label.
   function sections(html) {
-    var parts = html.split(/(?=<h2>)/);
+    var parts = html.split(/(?=<h2>)/), n = 0;
     return parts.map(function (part) {
       var m = /^<h2>([\s\S]*?)<\/h2>/.exec(part);
       if (!m) return part.trim() ? '<section class="cs-section"><div class="cs-body">' + part + "</div></section>" : "";
       var id = m[1].replace(/<[^>]+>/g, "").toLowerCase().replace(/&amp;/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-      return '<section class="cs-section" id="' + id + '"><h2 class="cs-label">' + m[1] + '</h2><div class="cs-body">' +
+      return '<section class="cs-section" id="' + id + '"><h2 class="cs-label"><span class="micro">' + (++n < 10 ? "0" + n : n) + "</span>" + m[1] + '</h2><div class="cs-body">' +
         part.slice(m[0].length) + "</div></section>";
     }).join("\n");
   }
@@ -214,29 +217,65 @@
     if (revealer) revealer.disconnect();
     if (!bundle && location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
     setupFilters();
+    keepWords();
     if (!("IntersectionObserver" in window)) return;
     var links = [].slice.call(document.querySelectorAll(".menu a[data-sec]"));
-    observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        links.forEach(function (l) { l.classList.toggle("is-current", l.getAttribute("data-sec") === en.target.id); });
-      });
-    }, { rootMargin: "-40% 0px -55% 0px" });
-    ["top", "about", "projects", "contact"].forEach(function (id) { var el = document.getElementById(id); if (el) observer.observe(el); });
+    var screens = [].slice.call(document.querySelectorAll(".screen"));
+    var dots = [].slice.call(document.querySelectorAll(".screen-dots a"));
+    function mark() {
+      if (!screens.length) return;
+      var head = document.querySelector(".site-head"), top = head ? head.getBoundingClientRect().bottom : 0, cur = screens[0];
+      screens.forEach(function (el) { if (el.getBoundingClientRect().top - top <= window.innerHeight * 0.35) cur = el; });
+      var sec = cur.getAttribute("data-sec") || cur.id;
+      links.forEach(function (l) { l.classList.toggle("is-current", l.getAttribute("data-sec") === sec); });
+      dots.forEach(function (d) { d.classList.toggle("is-current", d.getAttribute("data-dot") === cur.id); });
+    }
+    if (window.__markScroll) window.removeEventListener("scroll", window.__markScroll);
+    var ticking = false;
+    window.__markScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; mark(); }); } };
+    window.addEventListener("scroll", window.__markScroll, { passive: true });
+    mark();
+    observer = { disconnect: function () {} };
     revealer = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); revealer.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -10% 0px" });
     [].slice.call(document.querySelectorAll(".section")).forEach(function (el) { revealer.observe(el); });
   }
 
+  // Keep hyphenated words (anti-money-laundering, back-office) on one line: swap the hyphen for a non-breaking one.
+  function keepWords() {
+    [].slice.call(document.querySelectorAll(".prose p, .how-cards p, .hero-intro, .card-summary, .tl p, .tl-bullets li, .cs-lede, .cs-body p, .cs-body li, .tldr dd, .contact-lede")).forEach(function (el) {
+      var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
+      while ((n = w.nextNode())) if (/\w-\w/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(\w)-(?=\w)/g, "$1\u2011");
+    });
+  }
+
   function setupFilters() {
     var chips = [].slice.call(document.querySelectorAll(".chip"));
     var cards = [].slice.call(document.querySelectorAll(".work-grid .card"));
+    var track = document.querySelector(".projects .work-grid");
+    var count = document.querySelector(".slide-count");
+    var btns = [].slice.call(document.querySelectorAll(".slide-btn"));
+    function step() { var c = cards.filter(function (x) { return !x.hidden; })[0]; return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0) : 0; }
+    function update() {
+      if (!track || !count) return;
+      var vis = cards.filter(function (x) { return !x.hidden; }).length, st = step() || 1;
+      var per = Math.max(1, Math.round((track.clientWidth + parseFloat(getComputedStyle(track).columnGap || 0)) / st));
+      var first = Math.round(track.scrollLeft / st) + 1, last = Math.min(vis, first + per - 1);
+      count.textContent = vis ? (first === last ? first : first + "–" + last) + " / " + vis : "";
+      btns[0].disabled = track.scrollLeft <= 2;
+      btns[1].disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      document.querySelector(".slider").classList.toggle("is-static", vis <= per);
+    }
+    btns.forEach(function (b) { b.addEventListener("click", function () { var per = Math.max(1, Math.round((track.clientWidth + parseFloat(getComputedStyle(track).columnGap || 0)) / (step() || 1)));
+      track.scrollBy({ left: step() * per * +b.getAttribute("data-dir"), behavior: "smooth" }); }); });
+    if (track) { track.addEventListener("scroll", function () { requestAnimationFrame(update); }, { passive: true }); window.addEventListener("resize", update); setTimeout(update, 50); }
     chips.forEach(function (chip) {
       chip.addEventListener("click", function () {
         var f = chip.getAttribute("data-filter");
         chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
         cards.forEach(function (c) { c.hidden = f !== "all" && c.getAttribute("data-group") !== f; });
+        if (track) { track.scrollLeft = 0; update(); }
       });
     });
   }
@@ -246,7 +285,7 @@
       return '<a class="switch-opt" href="' + viewHref(v) + '"' + routeAttr({ page: "view", view: v }) +
         (v === view ? ' aria-current="page"' : "") + ">" + VIEWS[v].label + "</a>";
     }).join("");
-    var menu = [["about", "About"], ["projects", "Projects"], ["contact", "Contact"]].map(function (it) {
+    var menu = [["top", "Home"], ["about", "About"], ["projects", "Projects"], ["contact", "Contact"]].map(function (it) {
       var href = (onCase ? viewHref(view) : "") + "#" + it[0];
       return '<a href="' + href + '" data-sec="' + it[0] + '"' + routeAttr({ page: "view", view: view, anchor: it[0] }) + ">" + it[1] + "</a>";
     }).join("");
@@ -282,17 +321,19 @@
   function card(doc, view, size, groupLabel) {
     var m = doc.meta, linked = !!doc.body;
     var title = m.card_title || m.title;
-    var summary = m["summary_" + view] || "";
+    var summary = m["line_" + view] || m["summary_" + view] || "";
     var img = m["image_" + view] || m.image;
     var visual = img
       ? '<img src="' + assetUrl(img) + '" alt="" loading="lazy">'
       : '<span class="ph-title" aria-hidden="true">' + esc(title) + "</span>";
     var inner =
       '<div class="card-visual' + (img ? "" : " is-placeholder") + '">' + visual + "</div>" +
-      '<div class="card-text"><p class="card-meta">' + (groupLabel ? '<b>' + esc(groupLabel) + "</b>" : "") + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
+      '<div class="card-text"><p class="card-kicker">' + [groupLabel, m.kind && m.kind !== groupLabel ? m.kind : "", m.year].filter(Boolean).map(esc).join('<span aria-hidden="true">·</span>') + "</p>" +
       '<h3 class="card-title">' + esc(title) + "</h3>" +
+      (m.result ? '<p class="card-result">' + inline(m.result) + "</p>" : "") +
       '<p class="card-summary">' + inline(summary) + "</p>" +
-      (m.status === "draft" ? '<p class="card-flag">Draft</p>' : "") + "</div>";
+      (m.status === "draft" ? '<p class="card-flag">Draft</p>' : "") +
+      (linked ? '<span class="card-more">View project <i aria-hidden="true">→</i></span>' : "") + "</div>";
     return linked
       ? '<a class="card card-' + size + '" href="' + caseHref(doc.id, view) + '"' + routeAttr({ page: "case", id: doc.id, view: view }) + ">" + inner + "</a>"
       : '<div class="card card-' + size + ' card-static">' + inner + "</div>";
@@ -303,6 +344,51 @@
     var out = [];
     for (var n = 1; n <= 9; n++) if (m[prefix + n]) out.push(split(m[prefix + n]));
     return out;
+  }
+
+  // Timeline item: title, then the lines between, then years. In a detail line,
+  // "plain :: bullet ; bullet" shows a plain line followed by bullets.
+  function detail(t) {
+    var parts = t.split(" :: "), out = "";
+    parts.forEach(function (pt) {
+      out += pt.indexOf(" ; ") > -1 || parts.length > 1 && pt !== parts[0]
+        ? '<ul class="tl-bullets">' + pt.split(" ; ").map(function (b) { return "<li>" + inline(b) + "</li>"; }).join("") + "</ul>"
+        : "<p>" + inline(pt) + "</p>";
+    });
+    return out;
+  }
+  // role items: [title, detail, years] → title, years, detail
+  function dotline(items) {
+    return '<ul class="tl">' + items.map(function (it) {
+      return "<li><h4>" + inline(it[0]) + "</h4>" + (it[2] ? '<p class="when">' + inline(it[2]) + "</p>" : "") +
+        (it[1] ? detail(it[1]) : "") + "</li>";
+    }).join("") + "</ul>";
+  }
+  // education items: [degree, school, place, years] → in that order
+  function eduline(items) {
+    return '<ul class="tl">' + items.map(function (it) {
+      return "<li><h4>" + inline(it[0]) + "</h4>" + it.slice(1, -1).map(function (x) { return "<p>" + inline(x) + "</p>"; }).join("") +
+        '<p class="when">' + inline(it[it.length - 1]) + "</p></li>";
+    }).join("") + "</ul>";
+  }
+  // Experience grouped by company: "Role | Company, City · note | years"
+  function experience(items) {
+    var orgs = [];
+    items.forEach(function (it) {
+      var parts = (it[1] || "").split(" · "), org = parts[0], note = parts.slice(1).join(" · ");
+      var last = orgs[orgs.length - 1];
+      if (!last || last.org !== org) { last = { org: org, roles: [] }; orgs.push(last); }
+      last.roles.push([it[0], note, it[2]]);
+    });
+    return orgs.map(function (o) {
+      var yrs = [];
+      o.roles.forEach(function (r) { (r[2] || "").replace(/\d{4}/g, function (y) { yrs.push(+y); }); });
+      var span = yrs.length ? Math.min.apply(null, yrs) + " – " + Math.max.apply(null, yrs) : "";
+      var name = o.org.split(", ");
+      return '<div class="org"><h4 class="org-name">' + inline(name[0]) + "</h4>" +
+        '<p class="org-meta">' + inline(name.slice(1).join(", ")) + (span ? " · " + span : "") + "</p>" +
+        dotline(o.roles) + "</div>";
+    }).join("");
   }
 
   function timeline(items) {
@@ -317,13 +403,13 @@
       var m = site.meta;
       var groups = view === "design"
         ? [["studies", "Studies", list(m.design_studies), "Study"],
-           ["practice", "Design in practice", list(m.design_practice), "In practice"],
-           ["more", "More work", list(m.design_more), "More work"]]
+           ["work", "Work", list(m.design_practice), "Work"]]
         : [["cases", "Case studies", list(m.product_cases), "Case study"],
            ["short", "Short reads", list(m.product_short), "Short read"]];
       groups = groups.filter(function (g) { return g[2].length; });
       var ids = [].concat.apply([], groups.map(function (g) { return g[2]; }));
-      return Promise.all(ids.map(loadCase)).then(function (docs) {
+      var others = list(m[view + "_more"]);
+      return Promise.all(ids.concat(others).map(loadCase)).then(function (docs) {
         var byId = {};
         docs.forEach(function (d) { byId[d.id] = d; });
         document.title = m.name + " — " + (m[view + "_role"] || VIEWS[view].label);
@@ -332,38 +418,67 @@
           ? '<img src="' + assetUrl(m.photo) + '" alt="Portrait of ' + esc(m.name) + '">'
           : '<span class="photo-empty">Photo<br><small>content/images/photo.jpg · 4:5</small></span>';
 
-        var hero = '<section class="hero wrap" id="top">' +
+        var photo = m.photo ? '<img src="' + assetUrl(m.photo) + '" alt="Portrait of ' + esc(m.name) + '">' : "";
+        var nm = esc(m.name).split(" ");
+        var avatar = m.photo ? '<span class="avatar"><img src="' + assetUrl(m.photo) + '" alt="Portrait of ' + esc(m.name) + '"></span>' : "";
+        var label = {}; groups.forEach(function (g) { g[2].forEach(function (id) { label[id] = g[3]; }); });
+        var featured = list(m[view + "_featured"]).filter(function (id) { return byId[id]; });
+        if (!featured.length) featured = ids.slice(0, 4);
+        var feedHtml = featured.slice(0, 4).map(function (id, i) {
+          var fm = byId[id].meta, img = fm["image_" + view] || fm.image;
+          return '<a class="feed-item" href="' + caseHref(id, view) + '"' + routeAttr({ page: "case", id: id, view: view }) + ">" +
+            '<span class="feed-thumb">' + (img ? '<img src="' + assetUrl(img) + '" alt="">' : "") + "</span>" +
+            '<span class="feed-text"><span class="micro">' + esc(label[id] || "") + (fm.year ? " · " + esc(fm.year) : "") + "</span>" +
+            '<span class="feed-title">' + esc(fm.card_title || fm.title) + "</span>" +
+            (fm.result ? '<span class="feed-result">' + inline(fm.result) + "</span>" : "") + "</span>" +
+            '<span class="feed-num">0' + (i + 1) + "</span></a>";
+        }).join("");
+        var hero = '<section class="hero screen wrap hero-feedlayout" id="top" data-sec="top">' +
           '<div class="hero-text">' +
-            '<h1 class="hero-name">' + esc(m.name) + "</h1>" +
-            '<p class="hero-role">' + esc(m[view + "_role"] || "") + "</p>" +
-            '<p class="hero-intro">' + inline(m[view + "_intro"] || "") + "</p>" +
-            '<a class="button" href="#projects"' + routeAttr({ page: "view", view: view, anchor: "projects" }) + ">View projects</a>" +
+            '<p class="micro dot">' + esc(m[view + "_role"] || "") + " · " + esc(m.location || "") + "</p>" +
+            '<h1 class="hero-name">' + nm[0] + " " + avatar + " " + nm.slice(1).join(" ") + "</h1>" +
+            (m[view + "_headline"] ? '<p class="hero-headline">' + inline(m[view + "_headline"]) + "</p>" : "") +
+            '<p class="hero-intro">' + (m[view + "_intro"] || "").split(" || ").map(inline).join("<br>") + "</p>" +
           "</div>" +
-          '<div class="hero-visual"><figure class="photo' + (m.photo ? "" : " is-empty") + '">' + photo + "</figure></div></section>";
+          '<aside class="hero-feed" aria-label="Selected work"><p class="micro dot">Selected work</p>' + feedHtml + "</aside></section>";
 
         var strengths = numbered(m, view + "_strength_");
-        var about = '<section class="section about wrap" id="about">' +
-          '<h2 class="section-title">' + inline(m.about_title || "About") + "</h2>" +
+        var about = '<section class="section screen about wrap" id="about" data-sec="about">' +
+          '<p class="micro dot">01 — About</p><h2 class="section-title">' + inline(m["about_title_" + view] || m.about_title || "About") + "</h2>" +
           '<div class="about-cols">' +
-            '<div class="about-col"><h3 class="col-label">Profile</h3><div class="prose">' + markdown(site.body) + "</div></div>" +
-            '<div class="about-col"><h3 class="col-label">Experience</h3>' + timeline(numbered(m, "experience_")) +
-              '<h3 class="col-label">Languages</h3><p class="langs">' + list(m.languages).map(esc).join('<span aria-hidden="true"> · </span>') + "</p></div>" +
-            '<div class="about-col"><h3 class="col-label">Education</h3>' + timeline(numbered(m, "education_")) + "</div>" +
-          "</div>" +
-          (strengths.length ? '<div class="how"><h3 class="col-label">How I work</h3><ul class="strengths">' + strengths.map(function (s2) {
-            return "<li><h4>" + inline(s2[0]) + "</h4><p>" + inline(s2[1] || "") + "</p></li>";
-          }).join("") + "</ul></div>" : "") +
-          "</section>";
+            '<div class="about-col"><h3 class="col-label">Profile</h3><div class="prose">' + (m["profile_lead_" + view] ? '<p class="lead">' + m["profile_lead_" + view].split(" // ").map(inline).join("<br>") + "</p>" : "") + (m["profile_" + view] ? m["profile_" + view].split(" || ").map(function (pp) { return "<p>" + pp.split(" // ").map(inline).join("<br>") + "</p>"; }).join("") : markdown(site.body)) + "</div></div>" +
+            '<div class="about-col"><h3 class="col-label">Education</h3>' + eduline(numbered(m, "education_")) +
+            '<h3 class="col-label lang-label">Languages</h3><ul class="langs">' + list(m.languages).map(function (l) {
+                var mm = /^(.*?)\s*\((.*)\)$/.exec(l), cap = function (t) { return t.charAt(0).toUpperCase() + t.slice(1); };
+                var det = mm ? mm[2].split(" · ").map(function (t, i) { return i ? "(" + esc(cap(t)) + ")" : esc(cap(t)); }).join(" ") : "";
+                return "<li><b>" + esc(mm ? mm[1] : l) + "</b>" + (det ? "<span>" + det + "</span>" : "") + "</li>"; }).join("") + "</ul></div>" +
+            '<div class="about-col"><h3 class="col-label">Experience</h3>' + experience(numbered(m, "experience_")) + "</div>" +
+          "</div></section>";
+        var howItems = strengths.slice();
+        if (m["ai_note_" + view]) howItems.push([m["ai_title_" + view] || "AI as a sounding board", m["ai_note_" + view]]);
+        var how = howItems.length ? '<section class="section screen how wrap" id="how" data-sec="about"><div>' +
+          '<p class="micro dot">02 — How I work</p><h2 class="section-title">' + inline(m["how_title_" + view] || "How I work") + "</h2>" +
+          '<ul class="how-cards how-' + howItems.length + '">' + howItems.map(function (h) {
+            return '<li' + (howItems.indexOf(h) === 1 ? ' class="is-key"' : "") + '><span class="how-dash" aria-hidden="true"></span><div class="how-txt"><h3>' + inline(h[0]) + "</h3><p>" + inline(h[1] || "") + "</p></div></li>";
+          }).join("") + "</ul></div></section>" : "";
 
-        var chips = groups.length > 1
-          ? '<div class="chips" role="group" aria-label="Filter projects"><button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>' +
-            groups.map(function (g) { return '<button class="chip" type="button" data-filter="' + g[0] + '" aria-pressed="false">' + esc(g[1]) + "</button>"; }).join("") + "</div>"
-          : "";
+        var tabs = []; groups.forEach(function (g) { if (!tabs.some(function (t) { return t[0] === g[0]; })) tabs.push([g[0], g[1], 0]); });
+        groups.forEach(function (g) { tabs.forEach(function (t) { if (t[0] === g[0]) t[2] += g[2].length; }); });
+        var chips = '<div class="chips" role="group" aria-label="Filter projects"><button class="chip" type="button" data-filter="all" aria-pressed="true">All <span>' + ids.length + "</span></button>" +
+          tabs.map(function (t) { return '<button class="chip" type="button" data-filter="' + t[0] + '" aria-pressed="false">' + esc(t[1]) + " <span>" + t[2] + "</span></button>"; }).join("") + "</div>";
         var cards = groups.map(function (g) {
           return g[2].map(function (id) { return card(byId[id], view, "grid", g[3]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" class="card'); }).join("");
         }).join("");
-        var projects = '<section class="section projects wrap" id="projects">' +
-          '<h2 class="section-title">Projects</h2>' + chips + '<div class="work-grid">' + cards + "</div></section>";
+        var projects = '<section class="section screen projects wrap" id="projects">' +
+          '<div class="screen-head"><div><p class="micro dot">03 — Projects</p><h2 class="section-title">Selected projects</h2></div>' + chips + "</div>" +
+          '<div class="slider"><button class="slide-btn prev" type="button" data-dir="-1" aria-label="Previous projects">←</button>' +
+          '<div class="work-grid">' + cards + "</div>" +
+          '<button class="slide-btn next" type="button" data-dir="1" aria-label="Next projects">→</button></div>' +
+          '<div class="slide-row">' + (others.length ? '<p class="other-work"><span class="micro">Other work</span>' + others.map(function (id) {
+            var om = byId[id].meta;
+            return '<a href="' + caseHref(id, view) + '"' + routeAttr({ page: "case", id: id, view: view }) + ">" + esc(om.card_title || om.title) + "</a>";
+          }).join('<span aria-hidden="true">·</span>') + "</p>" : "<span></span>") +
+          '<div class="slide-nav"><span class="slide-count" aria-live="polite"></span></div></div></section>';
 
         var cv = m["cv_" + view];
         var rows = [];
@@ -371,15 +486,26 @@
         if (m.linkedin) rows.push(["LinkedIn", '<a href="' + esc(m.linkedin) + '" target="_blank" rel="noopener">' + esc(m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")) + "</a>", "out"]);
         if (cv) rows.push(["CV", '<a href="' + assetUrl(cv) + '" target="_blank" rel="noopener">Download CV (PDF)</a>', "down"]);
         if (!rows.length) rows.push(["", '<mark class="todo">Email and LinkedIn go here</mark>', ""]);
-        var contactSec = '<section class="section contact" id="contact"><div class="wrap contact-grid">' +
-          '<div><h2 class="section-title">Let’s talk.</h2><p class="contact-lede">I’m looking for ' +
-          (view === "design" ? "UX and product design" : "product management") + " roles in Berlin and across Germany.</p></div>" +
-          '<ul class="contact-rows">' + rows.map(function (r2) {
-            return '<li class="icon-' + r2[2] + '"><span class="row-label">' + r2[0] + "</span>" + r2[1] + "</li>";
-          }).join("") + "</ul></div></section>";
-
-        app.innerHTML = header(site, view, false) + "<main>" + hero + about + projects + contactSec + "</main>" +
-          '<footer class="site-foot"><div class="wrap foot-row"><span>' + esc(m.name) + "</span><span>" + esc(m.location || "") + "</span></div></footer>";
+        var lk = m.linkedin ? m.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "") : "";
+        var boxes = [];
+        if (m.email) boxes.push(["Email", esc(m.email), "mailto:" + esc(m.email), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/></svg>', ""]);
+        if (m.linkedin) boxes.push(["LinkedIn", esc(lk), esc(m.linkedin), '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.65v5.15h-4z"/></svg>', ' target="_blank" rel="noopener"']);
+        if (cv) boxes.push(["CV", "Download CV · PDF", assetUrl(cv), '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg>', ' target="_blank" rel="noopener"']);
+        var contactSec = '<section class="section screen contact" id="contact" data-sec="contact"><div class="wrap c-center">' +
+          '<p class="micro dot">04 — Contact</p><h2 class="section-title">' + inline(m["contact_title_" + view] || "Let’s talk.") + "</h2>" +
+          '<p class="contact-lede">' + (m["contact_lede_" + view] ? m["contact_lede_" + view].split(" || ").map(inline).join("<br>") : "I’m looking for " + (view === "design" ? "UX and product design" : "product management") + " roles in Berlin and across Germany.") + "</p>" +
+          '<p class="c-facts">' + [m.relocation || m.location, m.work_status].filter(Boolean).map(esc).join('<span aria-hidden="true">·</span>') + "</p>" +
+          '<div class="c-boxes">' + boxes.map(function (b2) {
+            return '<a class="c-box" href="' + b2[2] + '"' + b2[4] + '><span class="micro">' + b2[0] + '</span><span class="c-val">' + b2[1] + '</span><i aria-hidden="true">' + b2[3] + "</i></a>";
+          }).join("") + "</div></div></section>";
+        var foot = '<footer class="site-foot"><div class="wrap foot-row foot3">' +
+          '<div class="f-id"><b>' + esc(m.name) + "</b><span>" + esc(m[view + "_role"] || "") + "</span></div>" +
+          '<p class="f-keys">' + list(m["footer_" + view]).map(esc).join('<span aria-hidden="true">·</span>') + "</p>" +
+          '<p class="f-copy">© ' + new Date().getFullYear() + "</p></div></footer>";
+        var dots = '<nav class="screen-dots" aria-label="Screens">' + ["top", "about"].concat(how ? ["how"] : []).concat(["projects", "contact"]).map(function (id) {
+          return '<a href="#' + id + '" data-dot="' + id + '"' + routeAttr({ page: "view", view: view, anchor: id }) + '><span class="sr">' + id + "</span></a>";
+        }).join("") + "</nav>";
+        app.innerHTML = header(site, view, false) + dots + "<main>" + hero + about + how + projects + contactSec.replace(/<\/section>$/, foot + "</section>") + "</main>";
       });
     });
   }
@@ -389,7 +515,10 @@
     return Promise.all([load("content/site.md"), loadCaseFor(r.id, r.view)]).then(function (res) {
       var site = res[0], doc = res[1], m = doc.meta;
       document.title = (m.card_title || m.title) + " — " + site.meta.name;
-      var meta = META_FIELDS.filter(function (f) { return m[f[0]]; }).map(function (f) {
+      var tldr = r.view === "product" && m.tldr_problem;
+      var box = tldr ? '<dl class="tldr">' + [["Problem", m.tldr_problem], ["My role", m.tldr_role], ["Impact", m.tldr_impact]].filter(function (x) { return x[1]; }).map(function (x) {
+        return "<div><dt>" + x[0] + "</dt><dd>" + inline(x[1]) + "</dd></div>"; }).join("") + "</dl>" : "";
+      var meta = META_FIELDS.filter(function (f) { return m[f[0]] && !(tldr && f[0] === "outcome"); }).map(function (f) {
         return "<div><dt>" + f[1] + "</dt><dd>" + inline(m[f[0]]) + "</dd></div>";
       }).join("");
       var back = '<a class="back" href="' + viewHref(r.view) + '"' + routeAttr({ page: "view", view: r.view }) + ">All projects</a>";
@@ -397,9 +526,9 @@
         '<main class="case">' +
         '<section class="cs-hero wrap">' + back +
         (m.status === "draft" ? '<p class="draft-note">Draft. Highlighted text still needs to be filled in.</p>' : "") +
-        '<p class="cs-kicker">' + esc(m.kind || "") + (m.year ? " <span>" + esc(m.year) + "</span>" : "") + "</p>" +
+        '<p class="cs-kicker micro dot">' + esc(m.kind || "") + (m.year ? " · " + esc(m.year) : "") + "</p>" +
         '<h1 class="cs-title">' + inline(m.title || "") + "</h1>" +
-        (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") +
+        (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") + box +
         ((m["image_" + r.view] || m.image) ? '<figure class="cs-cover"><img src="' + assetUrl(m["image_" + r.view] || m.image) + '" alt=""></figure>' : "") +
         '<dl class="cs-meta">' + meta + "</dl>" +
         (m.note ? '<p class="cs-note">' + inline(m.note) + "</p>" : "") + "</section>" +

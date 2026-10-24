@@ -13,15 +13,29 @@ timeline: First discussed 2019 · active from 2020 · launched April 2021
 platform: Payment gateway and back-office
 scope: Credit card payments of one merchant group, rolled out service by service
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following my screen plans and the implemented system. Partner and merchant names are left out, and the settlement screens, designed by a colleague, are not shown.
+outcome: Launched in April 2021, service by service; after the post-launch fixes the route ran as part of normal operations
+result: Launched in Apr. 2021
+tldr_problem: The payment service relied on a single gateway. Adding a second route meant changing how live payments were approved, cancelled, settled and reported.
+tldr_role: Product owner, my first project run from zero to launch: partner tender, service policy (40 questions with the partner), reference data, screens (except settlement), tests, launch plan and issue handling.
+tldr_impact: The second route went live in April 2021 for one merchant group, switched service by service without stopping payments. Post-launch issues were traced and resolved, and the route ran as part of normal operations.
+line_design: Back-office screens that show which gateway processed each card payment
+line_product: A second processing route for live card payments, from tender to phased launch
 ---
 
 ## Background
 
-The company's payment gateway already reached the card companies through several VAN routes (the networks that carry card transactions between a gateway and the card companies). What it did not have was a second gateway. The project connected one: an external payment gateway as a partner, so that card payments had a backup if our own gateway could not process them, at least on paper. Payments on the partner route did not pass through our gateway at all. In Korea this setup is called "PG-to-PG": one payment gateway processing payments through another.
+The company's payment gateway already reached the card companies through several VAN routes (the networks that carry card transactions between a gateway and the card companies). What it did not have was a second gateway. The project connected an external payment gateway as a second processing route for card payments, so that the service no longer relied on a single gateway. Payments on the partner route did not pass through our gateway at all. In Korea this setup is called "PG-to-PG": one payment gateway processing payments through another.
 
 This meant changing how live payments were approved, cancelled, settled and reported, for merchants whose customers were paying every day. It was the first project I ran from zero to launch as a product owner: the policy, the reference-data requirements, the screens and the launch plan all started with me.
 
 ![Our gateway already reached the card companies through several VANs; a partner gateway was added alongside as a backup](images/routing/routes.svg)
+
+## Key decisions
+
+- **A formal tender** with existing and new partners, with legal and procurement.
+- **Overseas cards excluded,** because the required authentication was not available on this route.
+- **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once.
+- **Card-statement names made a documented standard** after testing every card company, because card-company rules prevented changing them.
 
 ## Choosing the partner
 
