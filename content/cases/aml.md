@@ -13,10 +13,10 @@ platform: Internal back-office (web)
 users: Sales-support staff who register and verify business customers
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following the structure, fields and rules of the implemented system. Company materials are not reproduced.
 outcome: System live in November 2023; the company met its AML obligations within the deadline
-result: Launched in Nov. 2023
+result: AML duties met on time (Nov. 2023)
 tldr_problem: A new legal AML duty for electronic financial companies. Customer checks were manual, spread across teams, and left little evidence.
 tldr_role: Project lead and single point of contact for seven internal teams and the vendor. I designed the customer due diligence flow and screens.
-tldr_impact: System live in November 2023, and AML obligations met within the deadline. Every verification now leaves evidence in the system. The revised rules were approved by the board in February 2024.
+tldr_impact: System live in November 2023, and AML obligations met within the deadline, for a payment service with more than 20 payment methods and over 1,000 merchants, including franchise businesses. Every verification now leaves evidence in the system, and the revised rules were approved by the board in February 2024.
 line_design: A step-by-step due diligence flow where every check, lock and branch follows the law
 line_product: Led a payment company's first AML system, from the law and vendor choice to launch
 ---
@@ -62,10 +62,10 @@ I started without knowing the legal details, so I learned the regulation and its
 
 ## Key decisions
 
-- **Vendor:** compared three to five AML vendors and, with my senior, chose the one other payment gateways used, for its PG experience.
-- **Duplicate check before a new record:** a business already verified is not re-verified early, so re-verification dates stay intact.
+- **Vendor:** chose the solution other payment gateways already used over the rest of a shortlist of three to five, because a proven PG setup mattered more than features on paper.
+- **Duplicate check before a new record,** instead of letting staff overwrite one: re-verification dates stay intact, at the cost of one more step before registration.
 - **Lock after confirmation:** due diligence must be complete before service starts, which means extra steps for staff.
-- **Permissions split by service** (payment gateway, gift card, pay), because each has different staff and customers.
+- **Permissions split by service** (payment gateway, gift card, pay) instead of one shared view, because each has different staff and customers, at the cost of more permission setup.
 
 ## Building the system
 

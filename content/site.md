@@ -9,12 +9,12 @@ cv_product: https://drive.google.com/file/d/1aQUIFYs23xZOWo7NZhJKKT8G1KqFESK9/vi
 
 # First screen, per view
 design_role: UX / Product Designer
-design_intro: Hello, I'm Jiwon Park. || I'm a UX and product designer for complex, regulated services. || From research-led app concepts to back-office tools for regulated payments, || I transform complex services into clear, intuitive flows using research, || process mapping and thoughtful design.
+design_intro: I design clear flows for complex, regulated services: from research-led app concepts to back-office tools for regulated payments.
 product_role: Product Manager · Payments & Compliance
-product_intro: Hello, I'm Jiwon Park. || I'm an end-to-end product manager for complex payment and compliance products. || I take them from requirements to launch: policy, screens, testing and rollout. || My work includes a company's first AML system, a second payment gateway || and the back-office tools behind regulated card fees.
+product_intro: End-to-end PM for payment and compliance products, from policy to screens to launch. I led a company's first AML system, a second payment gateway and the tools behind regulated card fees.
 
 # About
-about_title_product: Bringing clarity to complex digital products.
+about_title_product: Turning payment regulation into products teams can run.
 profile_product: Before moving to Germany, I worked in the payment business of a major South Korean company, // running payment services across its cinema, retail and streaming brands. || I managed more than 20 payment methods, added a second payment gateway for system reliability and led the company's first anti-money-laundering system. || I worked across engineering, operations, finance, legal and external partners, from policy and requirements to testing and launch. || In 2026 I completed my Master's in Visual & Experience Design in Potsdam. I am now based in Berlin.
 contact_title_design: Let’s connect.
 contact_lede_design: I am currently open to full-time UX and Product Design roles in Berlin and across Germany. || If you’re building complex products and need clear user flows, I’d love to talk!

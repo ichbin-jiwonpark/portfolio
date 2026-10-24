@@ -47,9 +47,9 @@ The work started each time the association's raw data arrived as text files. I p
 
 ## Key decisions
 
-- **Source data first:** staff upload the association's original file instead of copying it, so the lists can be checked against the source.
-- **New screens next to the existing ones,** so live payments were touched as little as possible.
-- **Reorganized the VAN groups,** unchanged for about 20 years, so that groups match the fee tiers. This is the decision I'm proudest of.
+- **Source data first,** instead of patching the screens where errors showed up: staff upload the association's original file, so every list can be checked against its source.
+- **New screens next to the existing ones** instead of rebuilding them, so live payments were touched as little as possible, at the cost of a back office that stays more complex.
+- **Reorganized the processing groups,** unchanged for about 20 years, instead of fitting the new tiers into the old ones, so that groups match the fee tiers. This is the decision I'm proudest of.
 
 ## The solution
 

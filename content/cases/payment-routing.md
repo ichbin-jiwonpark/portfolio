@@ -14,10 +14,10 @@ platform: Payment gateway and back-office
 scope: Credit card payments of one merchant group, rolled out service by service
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following my screen plans and the implemented system. Partner and merchant names are left out, and the settlement screens, designed by a colleague, are not shown.
 outcome: Launched in April 2021, service by service; after the post-launch fixes the route ran as part of normal operations
-result: Launched in Apr. 2021
+result: Live in Apr. 2021, without stopping the service
 tldr_problem: The payment service relied on a single gateway. Adding a second route meant changing how live payments were approved, cancelled, settled and reported.
 tldr_role: Product owner, my first project run from zero to launch: partner tender, service policy (40 questions with the partner), reference data, screens (except settlement), tests, launch plan and issue handling.
-tldr_impact: The second route went live in April 2021 for one merchant group, switched service by service without stopping payments. Post-launch issues were traced and resolved, and the route ran as part of normal operations.
+tldr_impact: The second route went live in April 2021 for one merchant group, inside a payment service with more than 20 payment methods and over 1,000 merchants. It was switched service by service without stopping payments; post-launch issues were traced and resolved, and the route ran as part of normal operations.
 line_design: Back-office screens that show which gateway processed each card payment
 line_product: A second processing route for live card payments, from tender to phased launch
 ---
@@ -32,10 +32,10 @@ This meant changing how live payments were approved, cancelled, settled and repo
 
 ## Key decisions
 
-- **A formal tender** with existing and new partners, with legal and procurement.
-- **Overseas cards excluded,** because the required authentication was not available on this route.
-- **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once.
-- **Card-statement names made a documented standard** after testing every card company, because card-company rules prevented changing them.
+- **A formal tender** with existing and new partners, with legal and procurement, instead of going straight to an existing partner: company rules required it and it gave a fair comparison, at the cost of a longer selection.
+- **Overseas cards excluded:** the service covered domestic merchants only, and the required authentication was not available on this route, so the route did not cover overseas cards.
+- **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once: less risk for live payments, at the cost of a longer rollout.
+- **Card-statement names documented as a standard** instead of changing them, because card-company rules did not allow it. I tested every card company, so the merchant's customer service could answer with certainty.
 
 ## Choosing the partner
 
