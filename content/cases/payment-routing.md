@@ -33,7 +33,7 @@ This meant changing how live payments were approved, cancelled, settled and repo
 ## Key decisions
 
 - **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once: less risk for live payments, at the cost of a longer rollout.
-- **Launch without a settlement test,** instead of delaying: settlement could not be tested before go-live, so I launched and monitored fees, payouts and deposits closely from the first day.
+- **Settlement monitored live from day one,** rather than delaying the launch for a test the setup could not support: from the day after launch I checked fees, payout and deposit dates and reconciled deposits with sales and settlement.
 - **Onboarding through partner merchant IDs** instead of a separate review by each card company, so merchants could be switched faster, at the cost of relying on the partner's merchant data. To limit that, I gave the partner our merchant numbers and details, asked them to set up the card-company merchant numbers the same way, and kept a copy of those numbers on our side.
 
 ## Choosing the partner

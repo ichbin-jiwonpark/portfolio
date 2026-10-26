@@ -83,14 +83,11 @@ I started without knowing the legal details, so I learned the regulation and its
 
 **The customer due diligence flow.** I designed every registration screen and branch of the flow in PowerPoint and shared the specifications with engineering. Registration runs in five steps: business details, representative, beneficial owner, agent, and confirm. The same flow covers companies and sole proprietors, with small differences in each step.
 
-Beyond the key decisions above, the other rules in the flow:
+Beyond the key decisions above, three more rules shape the flow:
 
-- **The business registration number is checked on entry.** It is the key the back office shares with the AML solution, so a number in the wrong format raises an alert and has to be checked again before the record can go on.
+- **One key per business.** The business registration number is the key the back office shares with the AML solution. A number in the wrong format raises an alert and has to be checked again, and a business with several merchant IDs is verified once, with each ID added as an agent under the same record.
 - **The beneficial-owner step can be skipped where the law allows it.** Companies that file public business reports and financial institutions are exempt; for a sole proprietor, the step closes when the owner is the representative. Everyone else must list each owner with their share.
-- **One business, many merchant IDs.** The business registration number is the key the back office shares with the AML solution. When a business runs several merchant IDs, each is added as an agent under the same record, so the business is verified once.
-- **Re-verification** every three years, or every year for high-risk customers, and whenever key details change: for a company, its name, number, nationality or representative; for a sole proprietor, the name, number or nationality. Existing merchants are covered from contracts signed in July 2019, when the duty began, as set in the revised internal rules, and older merchants when needed.
-- **High-risk customers get enhanced due diligence** (purpose of transactions, source of funds) before a decision.
-- **Three outcomes** from the risk result: approved for transactions, on hold while approval is pending, or rejected. A high-risk or watch-list result means the verification is done again.
+- **Re-verification and enhanced checks:** every three years, or every year for high-risk customers, and whenever key details change: for a company, its name, number, nationality or representative; for a sole proprietor, the name, number or nationality. Existing merchants are covered from contracts signed in July 2019, when the duty began, as set in the revised internal rules, and older merchants when needed. High-risk customers also get enhanced due diligence (purpose of transactions, source of funds) before a decision.
 
 ![The customer due diligence flow, from duplicate check to risk result](images/aml/cdd-flow.svg)
 
