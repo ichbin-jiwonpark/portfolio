@@ -15,7 +15,7 @@ product_intro: End-to-end PM for payment and compliance products, from policy to
 
 # About
 about_title_product: Turning payment regulation into products teams can run.
-profile_product: Before moving to Germany, I worked in the payment business of a major South Korean company, // running payment services across its cinema, retail and streaming brands. || I managed more than 20 payment methods, added a second payment gateway for system reliability and led the company's first anti-money-laundering system. || I worked across engineering, operations, finance, legal and external partners, from policy and requirements to testing and launch. || In 2026 I completed my Master's in Visual & Experience Design in Potsdam. I am now based in Berlin.
+profile_product: Before moving to Germany, I worked in the payment business of a major South Korean company, // running payment services across its cinema, retail and streaming brands. || I managed more than 20 payment methods, added a second payment gateway for system reliability and led the company's first anti-money-laundering system. || I worked across engineering, operations, finance, legal and external partners, from policy and requirements to testing and launch. || In 2026 I completed my Master's in Visual & Experience Design in Potsdam. For my thesis app, POOM, I ran user interviews, made product decisions from them and tested the prototype with a user ([design portfolio](https://jiwon-park.vercel.app/design/)). I am now based in Berlin.
 contact_title_design: Let’s connect.
 contact_lede_design: I am currently open to full-time UX and Product Design roles in Berlin and across Germany. || If you’re building complex products and need clear user flows, I’d love to talk!
 contact_title_product: Let’s talk.

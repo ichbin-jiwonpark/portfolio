@@ -31,24 +31,18 @@ For a payment gateway, the customer is the merchant: the business that signs the
 
 Before the project, AML-related work was spread across departments and done by hand. Customer documents were checked by eye. Each check needed a separate data request to engineering. Suspicious-transaction monitoring ran as monitor, handle internally, close, with little left on record. The internal rules for electronic financial business had not been revised since they were first written in 2019.
 
-In the operating manual I later wrote, I mapped the main AML duties from how they were done before to how they would run with the system:
+In the operating manual I later wrote, I mapped the main AML duties and the process around them from how they were done before to how they run with the system. These checks were legal duties, so I turned them into requirements and set up the process and documents to meet the legal standard, reviewing them with the vendor and engineering:
 
-| Duty | Before | Planned with the system |
+| Area | Before | With the system |
 |---|---|---|
-| Customer due diligence | Merchant documents collected and checked by eye | Verification in the back office, risk-assessed by the AML solution |
-| Transaction monitoring | Rules unchanged since they were first set; alerts arrived in a chat messenger | Monitoring rules across transactions and settlement in the AML solution |
-| Suspicious transaction reports | Written by hand on the reporting website | Filed from report templates in the solution |
-| Internal rules | Not revised since 2019 | Revised |
-
-The process around the system changed as well. These checks were legal duties, so I turned them into requirements and set up the process and documents to meet the legal standard, reviewing them with the vendor and engineering:
-
-| Area | Before | After |
-|---|---|---|
-| Due diligence form | One template for companies and sole proprietors; merchants were unsure what to fill in, and some fields came back empty | Separate, updated forms for companies and sole proprietors |
+| Customer due diligence | Merchant documents collected and checked by eye | Verification in the back office, risk-assessed by the AML solution, with evidence kept for every check |
+| Due diligence form | One template for companies and sole proprietors; merchants were unsure what to fill in | Separate, updated forms for companies and sole proprietors |
 | Document check | No step to verify what the form said | Sales support checks first, then the sales rep reviews the documents and adds a comment |
 | Legal review | The service contract only | The due diligence form and documents attached to the review |
 | Ongoing due diligence | None after the first documents were filed | New merchants at contract; existing merchants every 3 years, or every year if high risk, and whenever key details change |
-| Risk assessment | Documents stored with no further step | Risk assessed by the AML solution, with evidence kept for every check |
+| Transaction monitoring | Rules unchanged since they were first set; alerts arrived in a chat messenger | Monitoring rules across transactions and settlement in the AML solution |
+| Suspicious transaction reports | Written by hand on the reporting website | Filed from report templates in the solution |
+| Internal rules | Not revised since 2019 | Revised |
 
 For onboarding, I drew the process maps myself, after confirming the requirements with engineering and the other teams involved. Before the system, a new merchant's documents went to a finance-team review and the merchant was then set up by hand. With the system, customer due diligence sits in that place, and a merchant ID is issued only after the risk result comes back low risk and approved.
 
@@ -68,8 +62,6 @@ I started without knowing the legal details, so I learned the regulation and its
 - **Threshold exceptions after launch:** for merchants with many small payments, I had exceptions applied instead of keeping one rule for all, trading some alert sensitivity for fewer false alerts that operators had to clear.
 
 ## Building the system
-
-**Choosing the system.** I researched AML solution providers in Korea and shortlisted several. My senior checked through industry contacts which solution other payment companies had adopted, and we chose that vendor for its experience with payment gateways.
 
 **Risk rules.** Together with the vendor, I set up the three core checks:
 
@@ -93,6 +85,7 @@ I started without knowing the legal details, so I learned the regulation and its
 
 Beyond the key decisions above, the other rules in the flow:
 
+- **The business registration number is checked on entry.** It is the key the back office shares with the AML solution, so a number in the wrong format raises an alert and has to be checked again before the record can go on.
 - **The beneficial-owner step can be skipped where the law allows it.** Companies that file public business reports and financial institutions are exempt; for a sole proprietor, the step closes when the owner is the representative. Everyone else must list each owner with their share.
 - **One business, many merchant IDs.** The business registration number is the key the back office shares with the AML solution. When a business runs several merchant IDs, each is added as an agent under the same record, so the business is verified once.
 - **Re-verification** every three years, or every year for high-risk customers, and whenever key details change: for a company, its name, number, nationality or representative; for a sole proprietor, the name, number or nationality. Existing merchants are covered from contracts signed in July 2019, when the duty began, as set in the revised internal rules, and older merchants when needed.
