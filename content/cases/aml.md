@@ -13,10 +13,10 @@ platform: Internal back-office (web)
 users: Sales-support staff who register and verify business customers
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following the structure, fields and rules of the implemented system. Company materials are not reproduced.
 outcome: System live in November 2023; the company met its AML obligations within the deadline
-result: AML duties met on time (Nov. 2023)
+result: 1,000+ merchants in one auditable process, on time
 tldr_problem: A new legal AML duty for electronic financial companies. Customer checks were manual, spread across teams, and left little evidence.
 tldr_role: Project lead and single point of contact for seven internal teams and the vendor. I designed the customer due diligence flow and screens.
-tldr_impact: System live in November 2023, and AML obligations met within the deadline, for a payment service with more than 20 payment methods and over 1,000 merchants, including franchise businesses. Every verification now leaves evidence in the system, and the revised rules were approved by the board in February 2024.
+tldr_impact: System live in November 2023, and AML obligations met within the deadline. More than 1,000 merchants, including franchise businesses, were verified through one documented, auditable process, and the revised rules were approved by the board in February 2024.
 line_design: A step-by-step due diligence flow where every check, lock and branch follows the law
 line_product: Led a payment company's first AML system, from the law and vendor choice to launch
 ---
@@ -65,7 +65,7 @@ I started without knowing the legal details, so I learned the regulation and its
 - **Vendor:** chose the solution other payment gateways already used over the rest of a shortlist of three to five, because a proven PG setup mattered more than features on paper.
 - **Duplicate check before a new record,** instead of letting staff overwrite one: re-verification dates stay intact, at the cost of one more step before registration.
 - **Lock after confirmation:** due diligence must be complete before service starts, which means extra steps for staff.
-- **Permissions split by service** (payment gateway, gift card, pay) instead of one shared view, because each has different staff and customers, at the cost of more permission setup.
+- **Threshold exceptions after launch:** for merchants with many small payments, I had exceptions applied instead of keeping one rule for all, trading some alert sensitivity for fewer false alerts that operators had to clear.
 
 ## Building the system
 
@@ -91,13 +91,10 @@ I started without knowing the legal details, so I learned the regulation and its
 
 **The customer due diligence flow.** I designed every registration screen and branch of the flow in PowerPoint and shared the specifications with engineering. Registration runs in five steps: business details, representative, beneficial owner, agent, and confirm. The same flow covers companies and sole proprietors, with small differences in each step.
 
-Each rule in the flow has a reason:
+Beyond the key decisions above, the other rules in the flow:
 
-- **A duplicate check must pass before the first step opens.** A business that is already registered does not need a new check until its re-verification date, and overwriting its record would break the re-verification schedule.
-- **Once confirmed, the record is locked until the risk result arrives the next day.** AML rules require verification to be complete before a customer receives the service, so the record that was assessed cannot change in between.
 - **The beneficial-owner step can be skipped where the law allows it.** Companies that file public business reports and financial institutions are exempt; for a sole proprietor, the step closes when the owner is the representative. Everyone else must list each owner with their share.
 - **One business, many merchant IDs.** The business registration number is the key the back office shares with the AML solution. When a business runs several merchant IDs, each is added as an agent under the same record, so the business is verified once.
-- **Permissions are separated by service.** The payment gateway, gift card and pay services each have their own staff and their own customers.
 - **Re-verification** every three years, or every year for high-risk customers, and whenever key details change: for a company, its name, number, nationality or representative; for a sole proprietor, the name, number or nationality. Existing merchants are covered from contracts signed in July 2019, when the duty began, as set in the revised internal rules, and older merchants when needed.
 - **High-risk customers get enhanced due diligence** (purpose of transactions, source of funds) before a decision.
 - **Three outcomes** from the risk result: approved for transactions, on hold while approval is pending, or rejected. A high-risk or watch-list result means the verification is done again.

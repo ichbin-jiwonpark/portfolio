@@ -13,7 +13,7 @@ platform: Internal back-office (web)
 users: Internal operations staff who run the half-yearly fee update
 note: Screens and diagrams are redrawn for this portfolio with fictional merchants and fee rates, following the specification I co-wrote and the implemented system. Internal documents are not reproduced.
 outcome: Live from the second half of 2024. By my estimate, the half-yearly update went from about three weeks of manual work to about a day
-result: Launched in Jul. 2024
+result: ~3 weeks → ~1 day per half-year
 tldr_problem: Every half-year, regulated fee tiers were updated through a 9-step manual Excel process across four roles. An error meant a wrong card fee, which led to a refund to the merchant or a loss for the company.
 tldr_role: I mapped the process and designed the screens, and co-wrote the specification with a planning colleague.
 tldr_impact: Live from the second half of 2024. By my estimate, the update went from about three weeks to about a day. Former colleagues report far fewer errors.

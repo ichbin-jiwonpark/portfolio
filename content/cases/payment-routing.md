@@ -14,10 +14,10 @@ platform: Payment gateway and back-office
 scope: Credit card payments of one merchant group, rolled out service by service
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following my screen plans and the implemented system. Partner and merchant names are left out, and the settlement screens, designed by a colleague, are not shown.
 outcome: Launched in April 2021, service by service; after the post-launch fixes the route ran as part of normal operations
-result: Live in Apr. 2021, without stopping the service
+result: A merchant group's card payments moved, service kept running
 tldr_problem: The payment service relied on a single gateway. Adding a second route meant changing how live payments were approved, cancelled, settled and reported.
 tldr_role: Product owner, my first project run from zero to launch: partner tender, service policy (40 questions with the partner), reference data, screens (except settlement), tests, launch plan and issue handling.
-tldr_impact: The second route went live in April 2021 for one merchant group, inside a payment service with more than 20 payment methods and over 1,000 merchants. It was switched service by service without stopping payments; post-launch issues were traced and resolved, and the route ran as part of normal operations.
+tldr_impact: At launch, 100% of one merchant group's card payments moved to the second route, inside a payment service with more than 20 payment methods and over 1,000 merchants, without stopping the service. After post-launch issues were traced and fixed, payments were split between both routes as planned, so the service no longer depended on a single gateway.
 line_design: Back-office screens that show which gateway processed each card payment
 line_product: A second processing route for live card payments, from tender to phased launch
 ---
@@ -32,10 +32,9 @@ This meant changing how live payments were approved, cancelled, settled and repo
 
 ## Key decisions
 
-- **A formal tender** with existing and new partners, with legal and procurement, instead of going straight to an existing partner: company rules required it and it gave a fair comparison, at the cost of a longer selection.
-- **Overseas cards excluded:** the service covered domestic merchants only, and the required authentication was not available on this route, so the route did not cover overseas cards.
 - **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once: less risk for live payments, at the cost of a longer rollout.
-- **Card-statement names documented as a standard** instead of changing them, because card-company rules did not allow it. I tested every card company, so the merchant's customer service could answer with certainty.
+- **Launch without a settlement test,** instead of delaying: settlement could not be tested before go-live, so I launched and monitored fees, payouts and deposits closely from the first day.
+- **Onboarding through partner merchant IDs** instead of a separate review by each card company, so merchants could be switched faster, at the cost of relying on the partner's merchant data. To limit that, I gave the partner our merchant numbers and details, asked them to set up the card-company merchant numbers the same way, and kept a copy of those numbers on our side.
 
 ## Choosing the partner
 
@@ -89,8 +88,9 @@ The launch surfaced issues the tests could not, and I checked incoming customer 
 
 - **A different name on card statements.** Existing customers saw an unfamiliar merchant name and asked what the charge was. The name is set by each card company's own rules, so it could not simply be changed. I ran approval and cancellation tests across all card companies, documented exactly how the name appeared in SMS, app push notifications and on the actual statement for each one, and gave this reference to the merchant. We agreed this would be the standard, so their customer service could answer with certainty.
 - **Missing card-issuer benefits.** Some card-issuer benefits did not apply on the new route; each case was traced and handled with the partner.
+- **Cards that would not go through.** Payments with certain cards failed on the new route; each case was traced and fixed with the partner.
 
-Once the issues settled, the route ran as part of normal operations.
+At launch, all card payments of the merchant group moved to the new route. Once the issues settled, payments were split between the two routes as planned, so the service ran on two gateways in normal operations.
 
 ## Reflection
 

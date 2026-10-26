@@ -38,7 +38,7 @@ I worked on this as part of the existing payment team, alongside a senior collea
 
 ## Result
 
-After registering a card once, customers pay with a saved card and a 6-digit PIN, without leaving the app. Use of the new payment method grew, and it supported card-issuer promotions run exclusively on it.
+After registering a card once, customers pay with a saved card and a 6-digit PIN, without leaving the app. It also supported card-issuer promotions that ran only on this payment method.
 
 The CGV service became the starting point for the group's own easy pay. The same setup was reused for CJ The Market, the group's online food store, and piloted there from February 2023. After further improvements, the group launched it officially as CJ PAY in February 2024.
 

@@ -47,9 +47,7 @@ design_strength_6: Clear documentation | I write the specifications, manuals and
 product_strength_1: Payments end to end | More than 20 payment methods in a live service, with card companies, VANs, a partner gateway and settlement checks.
 product_strength_2: Regulation into product | I led a payment company's first AML system and turned legal duties into processes and screens.
 product_strength_3: Zero to launch | I took a second payment gateway from tender and a 40-question policy review to tests and a phased launch.
-product_strength_4: One point of contact | I was the single contact for seven internal teams and the vendor, and kept decisions moving.
-product_strength_5: Policy to screens | I design the screens myself, backed by an MA in experience design, and take them through testing.
-product_strength_6: Launch and after | Day-by-day launch plans, then tracing post-launch issues and tuning monitoring rules with the vendor.
+product_strength_4: Policy to screens | I design the screens myself, backed by an MA in experience design, and take them through testing.
 
 # Projects, in order. Remove a name to hide it from that view.
 design_featured: poom, bookiverse, fee-tier, aml
