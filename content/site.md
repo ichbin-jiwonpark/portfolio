@@ -52,9 +52,9 @@ product_strength_4: Policy to screens | I design the screens myself, backed by a
 # Projects, in order. Remove a name to hide it from that view.
 design_featured: poom, bookiverse, fee-tier, aml
 product_featured: aml, payment-routing, fee-tier, easy-payment
-design_studies: poom, bookiverse
+design_studies: poom, bookiverse, cookids, alixir, yeay
 design_practice: fee-tier, aml, payment-routing
-design_more: alixir, yeay
+design_order: poom, bookiverse, fee-tier, aml, payment-routing, cookids, alixir, yeay
 product_cases: aml, payment-routing, fee-tier
 product_short: easy-payment
 ---

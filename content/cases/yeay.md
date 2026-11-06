@@ -8,6 +8,8 @@ summary_design: A peer-mentoring learning app concept for young people's emotion
 role: UX Designer in a team of three: user flows and wireframes
 platform: Mobile app concept · Figma prototype
 timeline: Envisioning course · October 2024 – January 2025
+line_design: A peer-mentoring app concept; my first design project, working on flows and wireframes
+prototype: https://www.figma.com/proto/5AjFmwjLIh41kfwx3gbDqC/Envisioning?node-id=665-46&scaling=min-zoom&content-scaling=fixed&page-id=547%3A7&starting-point-node-id=844%3A319&show-proto-sidebar=1
 ---
 
 ## Background

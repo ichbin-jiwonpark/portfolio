@@ -5,7 +5,7 @@ kind: Work
 year: 2021
 image: images/routing/cover.jpg
 image_design: images/routing/cover-design.jpg
-summary_product: Building payment redundancy for stability: a second processing route for live card payments, from partner tender and service policy to a phased launch and post-launch fixes.
+summary_product: Ending our dependence on a single gateway: an external partner added as a second route for card payments, from tender and policy to a phased launch.
 summary_design: Working out what operations, sales support and finance needed to tell a second payment gateway apart, and turning their questions into back-office screens.
 role: Product Owner (lead): partner selection, service policy, reference data, screen planning, testing, launch plan, issue response
 team: Engineering, operations, sales, sales support, settlement, a back-office planning colleague (settlement screens), legal and procurement, an external payment partner
@@ -15,83 +15,70 @@ scope: Credit card payments of one merchant group, rolled out service by service
 note: Screens and diagrams are redrawn for this portfolio with fictional data, following my screen plans and the implemented system. Partner and merchant names are left out, and the settlement screens, designed by a colleague, are not shown.
 outcome: Launched in April 2021, service by service; after the post-launch fixes the route ran as part of normal operations
 result: Second route in daily use, splitting card payments with ours
-tldr_problem: The payment service relied on a single gateway. Adding a second route meant changing how live payments were approved, cancelled, settled and reported.
-tldr_role: Product owner, led from zero to launch: partner tender, service policy (40 questions with the partner), reference data, screens (except settlement), tests, launch plan and issue handling.
-tldr_impact: At launch, 100% of one merchant group's card payments moved to the second route, inside a payment service with more than 20 payment methods and over 1,000 merchants, without stopping the service. After post-launch issues were traced and fixed, payments were split between both routes as planned, so the service no longer depended on a single gateway.
+tldr_problem: All card payments relied on a single gateway. A second route meant changing how live payments were approved, cancelled, settled and reported.
+tldr_role: Product owner, from zero to launch: partner tender, service policy, reference data, screens (except settlement), tests, launch plan and issue handling.
+tldr_impact: At launch, 100% of one merchant group's card payments moved to the new route without stopping the service. After the fixes, payments were split between both routes as planned.
 line_design: Back-office screens that show which gateway processed each card payment
 line_product: A second processing route for live card payments, from tender to phased launch
+title_product: A second payment gateway, launched without stopping live payments
+stats_product: 1 → 2 :: payment gateways, so card payments no longer rely on one || 40 :: policy questions settled with the partner before launch || 100% :: of one merchant group moved at launch, with the service running
+skills_product: Multi-PSP redundancy · Partner tender · Payment policy (cancellation, settlement, instalments) · Reference data mapping · Phased rollout · Settlement reconciliation · Incident handling
 ---
 
-## Background
+## The problem
 
-The company's payment gateway already reached the card companies through several VAN routes (the networks that carry card transactions between a gateway and the card companies). What it did not have was a second gateway. The project connected an external payment gateway as a second processing route for card payments, so that the service no longer relied on a single gateway. Payments on the partner route did not pass through our gateway at all. In Korea this setup is called "PG-to-PG": one payment gateway processing payments through another.
+Our gateway reached the card companies through several VAN networks, but there was only one gateway. If it had a problem, card payments had a problem.
 
-This meant changing how live payments were approved, cancelled, settled and reported, for merchants whose customers were paying every day. I led it from zero to launch as product owner: the policy, the reference-data requirements, the screens and the launch plan all started with me.
+The goal: connect an external payment gateway as a second route for card payments ("PG-to-PG" in Korea), for merchants whose customers paid every day, without stopping the service.
 
 ![Our gateway already reached the card companies through several VANs; a partner gateway was added alongside as a backup](images/routing/routes.svg)
 
+## My role
+
+Product owner, from zero to launch. The partner tender, the service policy, the reference-data requirements, the back-office screens and the launch plan all started with me. A colleague designed the settlement screens.
+
 ## Key decisions
 
-- **Launched service by service,** starting with recurring and manual card payments, instead of switching everything at once: less risk for live payments, at the cost of a longer rollout.
-- **Settlement monitored live from day one,** rather than delaying the launch for a test the setup could not support: from the day after launch I checked fees, payout and deposit dates and reconciled deposits with sales and settlement.
-- **Onboarding through partner merchant IDs** instead of a separate review by each card company, so merchants could be switched faster, at the cost of relying on the partner's merchant data. To limit that, I gave the partner our merchant numbers and details, asked them to set up the card-company merchant numbers the same way, and kept a copy of those numbers on our side.
+- **Service by service,** starting with recurring and manual card payments, instead of switching everything at once: less risk for live payments, at the cost of a longer rollout.
+- **Settlement monitored live from day one,** because the setup could not be tested before launch, instead of delaying the launch.
+- **Onboarding through partner merchant IDs,** instead of a separate review by each card company, so merchants could switch faster. To limit the dependency, I gave the partner our merchant numbers, asked for the same setup, and kept a copy on our side.
 
-## Choosing the partner
+## Defining the service
 
-I invited both existing and new partners and ran the selection as a formal tender under company rules, with legal and procurement involved.
-
-## Defining how the service works
-
-I wrote the service policy that engineering and operations built against. It answered the questions a new payment route raises:
-
-- **Onboarding:** merchants are registered through partner merchant IDs instead of a separate review by each card company
-- **Money flow:** settlement cycle, full and partial cancellation before and after card-company capture, monthly tax invoices
-- **Card rules:** instalment limits, card-issuer interest-free campaigns, and which cards are supported. Overseas cards were excluded because the required authentication was not available on this route
-- **Data mapping:** how our merchant and terminal data maps to the partner's IDs, including exception cases such as employee discounts, so no payment falls through
-
-To pin these down, I went through 40 policy questions with the partner and recorded each answer: merchant ID rules and changes, settlement and payout cycles, cancellation and partial cancellation, payment and instalment limits, interest-free campaigns, receipts, terms, fees, and who to contact when something breaks.
-
-I also planned the back-office screens, apart from the settlement screens, which a colleague designed. Operations and finance needed to tell the new route apart in reference data, transaction search and statistics. I collected the requirements from each team, sketched the screens with their input and checked with engineering what could be built. Where something could not, I took engineering's suggestion back to the team and settled it there.
+- **Partner:** a formal tender under company rules, with legal and procurement, open to existing and new partners.
+- **Policy:** 40 questions with the partner, each answer recorded: merchant IDs, settlement and payout cycles, full and partial cancellation, instalments and interest-free campaigns, receipts, fees and escalation contacts. Overseas cards were excluded, because the required authentication was not available on this route.
+- **Data mapping:** our merchant and terminal IDs mapped to the partner's IDs, including exceptions such as employee discounts, so no payment falls through.
+- **Screens:** I collected requirements from operations and finance, so the new route is visible in reference data, transaction search and statistics.
 
 ![Integration mapping: our terminal IDs mapped to the partner's merchant IDs and the card-company numbers it received](images/routing/screen-map.jpg)
 
-*Reference data for the second route: each of our terminal IDs mapped to the partner's merchant ID and to the card-company number the partner received.*
+*Each of our terminal IDs mapped to the partner's merchant ID and the card-company number.*
 
 ![Transaction search with a route filter and route and processing-code columns](images/routing/screen-tx.jpg)
 
-*Transaction search with a new route filter and new columns, so operations can see at a glance which route processed a payment.*
+*A route filter and new columns show at a glance which route processed a payment.*
 
-## Testing and phased launch
+## Launch
 
-The project ran from 2020, when the partner tender started, to the launch in April 2021.
-
-![Timeline: first discussed in 2019, tender, policy, screens and tests from 2020, launch in April 2021, then post-launch fixes and normal operations](images/routing/timeline.svg)
-
-**The last three weeks.** For the final stretch before launch, I turned the remaining work into a day-by-day plan with an owner for every step, across sales, sales support, settlement, engineering, the approval team and the partner.
+For the last three weeks, I turned the remaining work into a day-by-day plan with an owner for every step.
 
 | When | What | Who |
 |---|---|---|
-| 20 days before | Final policy check with the partner; card attributes and target merchants checked per service; merchant ID requests, contract and legal review | Me, with the partner |
-| 16 to 10 days before | Three development check-ins before deployment | Engineering |
-| 13 days before | Reference data in the test system: the partner, merchant numbers and settlement cycles, fees and integration keys; deposit accounts; routing groups | Me; settlement for accounts; the approval team for routing |
-| 7 days before | Deployment; the same reference data in production; approval, cancellation and partial-cancellation tests | Engineering and me |
-| Launch day | First merchant switched; share of payments on the new route watched at 10%, 50% and 100% | Me, with engineering |
-| Day after | Fees, payout and deposit dates checked; sales compared before and after the switch to catch negative margins; deposits reconciled | Me, with sales and settlement |
-
-With engineering and the partner, I tested authorisation and cancellation. Settlement could not be tested before launch, so it was monitored closely after go-live.
-
-Instead of switching everything at once, the launch started with one merchant group and moved through its services one by one, starting with recurring and manual card payments.
+| 20 days before | Final policy check; target merchants per service; contract and legal review | Me, with the partner |
+| 13 days before | Reference data in the test system: merchant numbers, settlement cycles, fees, keys, routing | Me, settlement, approval team |
+| 7 days before | Deployment; production data; approval and cancellation tests | Engineering and me |
+| Launch day | First merchant switched; share on the new route watched at 10%, 50% and 100% | Me, with engineering |
+| Day after | Fees, payout dates and deposits reconciled; sales compared to catch negative margins | Me, with sales and settlement |
 
 ## After launch
 
-The launch surfaced issues the tests could not, and I checked incoming customer inquiries as they arrived, traced each case and coordinated fixes with engineering and the partner.
+Launch surfaced issues the tests could not. I checked customer inquiries as they came in, traced each case and coordinated fixes with engineering and the partner.
 
-- **A different name on card statements.** Existing customers saw an unfamiliar merchant name and asked what the charge was. The name is set by each card company's own rules, so it could not simply be changed. I ran approval and cancellation tests across all card companies, documented exactly how the name appeared in SMS, app push notifications and on the actual statement for each one, and gave this reference to the merchant. We agreed this would be the standard, so their customer service could answer with certainty.
-- **Missing card-issuer benefits.** Some card-issuer benefits did not apply on the new route; each case was traced and handled with the partner.
-- **Cards that would not go through.** Payments with certain cards failed on the new route; each case was traced and fixed with the partner.
+- **An unfamiliar name on card statements.** I tested approval and cancellation with every card company, documented how the name appeared in SMS, push notifications and statements, and gave the merchant one reference their customer service could rely on.
+- **Missing card-issuer benefits** and **cards that would not go through:** each case traced and fixed with the partner.
 
-At launch, all card payments of the merchant group moved to the new route. Once the issues settled, payments were split between the two routes as planned, so the service ran on two gateways in normal operations.
+**Result:** once the issues settled, payments were split between both routes as planned. The service now runs on two gateways.
 
-## Reflection
+## What I'd do differently
 
-If I did this again, I would make the reference-data check more systematic and give it more room in the schedule. Beyond the planned tests, I would confirm with real approvals and cancellations that the data lands correctly in both our payment system and the partner's, and settle the wording customers see on statements and notifications in advance, so that as many cases as possible are caught during development and operations testing, not after launch.
+I would give reference-data checks more room in the schedule, confirm with real approvals and cancellations that data lands correctly on both sides, and agree statement wording before launch.

@@ -1,51 +1,53 @@
 ---
 role: Screen planning (all but the settlement screens): requirements from each team, screen concepts, iteration with engineering
+title_design: Back-office screens for a second payment gateway, without rebuilding what staff relied on
+summary_design: Turning the questions of operations, sales support and finance into small changes to screens they already knew.
+stats_design: 4 :: questions the back office had to answer at a glance || 2 :: new columns and one filter in transaction search || 2 phases :: day-one needs first, the rest planned next
+skills_design: Requirements gathering · B2B back-office UX · Designing within legacy constraints · Iterating with engineering · Phased delivery
+tldr_problem_design: Every back-office screen was built around one gateway. With a second one, staff could no longer tell which gateway had handled a payment.
+tldr_role_design: I planned the back-office screens (a colleague designed settlement): requirements, sketches and iteration with engineering.
+tldr_impact_design: Launched in April 2021 as one new filter or value in familiar screens, so staff could see which route processed a payment.
 ---
 
-## Background
+## The problem
 
-The company's payment gateway already reached the card companies through several VAN routes. The project added a second payment gateway, an external partner, as a backup for card payments. Payments on the partner route did not pass through our gateway at all.
+The company added an external partner as a second payment gateway for card payments. Payments on the partner route did not pass through our gateway at all.
 
-That changed the daily work of everyone who ran payments. Operations, sales support and finance all worked in the same back office, and every screen they used had been built around one gateway. Each of them now had to know, at a glance, which gateway had handled a payment and where its data lived.
+Operations, sales support and finance all worked in one back office built around one gateway. Each of them now had to see, at a glance, which gateway had handled a payment and where its data lived.
 
 ![Our gateway already reached the card companies through several VANs; a partner gateway was added alongside as a backup](images/routing/routes.svg)
 
 ## Users and their questions
 
-I started from the questions each team would need to answer in the back office once the partner route was live:
+- **Who is this partner?** A new kind of payment partner, with its own deposit accounts, next to the card companies.
+- **Which of our IDs belongs to which partner ID?** Each terminal ID mapped to the partner's merchant ID and the card-company number.
+- **Which gateway processed this payment?** Operations searched transactions daily and needed to filter by route.
+- **How much went through each route?** Volume statistics needed to separate the routes.
 
-- **Who is this partner, and how is it set up?** The partner had to exist as a new kind of payment partner, with its own deposit accounts, next to the card companies.
-- **Which of our IDs belongs to which partner ID?** Each of our terminal IDs had to map to the partner's merchant ID and to the card-company number the partner had received, so payments could be traced in both systems.
-- **Which gateway processed this payment?** Operations and customer service searched transactions every day and needed to filter and see the route.
-- **How much went through each route?** Volume statistics needed to separate the partner route from the rest.
+## Process
 
-## How the screens came together
+1. **Collect** what each team checked, in which screen, and what would change for them
+2. **Sketch** where each answer would live, and ask the team before going further
+3. **Check** with engineering what the existing back office could support
+4. **Settle** alternatives from engineering with the team
 
-I planned the screens, apart from the settlement screens, which a colleague designed. The process ran in a loop:
+## Design decisions
 
-1. **Collect requirements from each team:** what they checked, in which screen, and what would change for them
-2. **Sketch the screens with their input:** I proposed where each answer would live and asked for their opinion before going further
-3. **Check feasibility with engineering:** what the existing back office could support, and what it could not
-4. **Take it back to the team:** where engineering suggested another way, I brought that back to the team and settled it there
-
-**Extend, don't rebuild.** The back office was in daily use for live payments. Rather than new screens, most answers became one new value or filter in a screen people already knew: a new partner type, the partner in the existing deposit-account and mapping screens, and a route filter in transaction search that defaults to showing everything.
-
-**Launch first, the rest next.** The changes were split into two phases. What operations needed from the first day went into the first release; label changes in merchant management, the route flag in volume statistics and an export of the mapping data were planned for a second phase.
-
-## Screens
+- **Extend, don't rebuild:** most answers became one new value or filter in a screen people already knew, with a route filter that shows everything by default.
+- **Launch first, the rest next:** day-one needs in the first release; label changes, a route flag in statistics and a mapping export in a second phase.
 
 ![Integration mapping: our terminal IDs mapped to the partner's merchant IDs and the card-company numbers it received](images/routing/screen-map.jpg)
 
-*Reference data: each of our terminal IDs mapped to the partner's merchant ID and to the card-company number the partner received, in the mapping screen staff already used.*
+*Reference data: each terminal ID mapped to the partner's merchant ID, in the mapping screen staff already used.*
 
 ![Transaction search with a route filter and route and processing-code columns](images/routing/screen-tx.jpg)
 
-*Transaction search: a new route filter and two new columns, so operations can see at a glance which gateway processed a payment.*
+*Transaction search: a route filter and two new columns show which gateway processed a payment.*
 
 ## What customers saw
 
-One issue only appeared after launch, outside the back office. Existing customers saw an unfamiliar merchant name on their card statements and asked what the charge was. The name is set by each card company's own rules, so it could not simply be changed. I ran approval and cancellation tests across all card companies, documented how the name appeared in SMS, app push notifications and on the statement for each one, and gave this reference to the merchant, so their customer service could answer with certainty.
+After launch, customers saw an unfamiliar merchant name on card statements. The name is set by each card company, so I tested every card company and documented how it appeared in SMS, push notifications and statements. The merchant's customer service could then answer with certainty.
 
 ## Reflection
 
-If I did this again, I would settle the wording customers see on statements and notifications in advance, and check with real approvals and cancellations that the data lands correctly in both our payment system and the partner's, so that as many cases as possible are caught before launch, not after.
+Next time, I would settle the wording customers see before launch, and check with real approvals and cancellations that data lands correctly on both sides.

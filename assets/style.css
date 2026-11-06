@@ -1027,3 +1027,211 @@ html body *, html body .prose p, html body .how-cards p, html body .hero-intro, 
   .projects .card-more { padding-top: 4px !important; }
   .projects .slide-row { margin-top: 8px !important; }
 }
+
+/* ---------- round 22: Product view in a Toss-like skin (bright white, bold type, soft grey tiles, blue accent) ---------- */
+html[data-skin="toss"] {
+  --tile: color-mix(in srgb, var(--accent) 7%, var(--paper)); --tile-hover: color-mix(in srgb, var(--accent) 12%, var(--paper));
+  --sub: color-mix(in srgb, var(--muted) 80%, var(--paper)); --hair: var(--line);
+}
+html[data-skin="toss"] body { background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* header: white, no rule, bold name, plain grey links, current one dark */
+html[data-skin="toss"] .site-head { background: color-mix(in srgb, var(--paper) 86%, transparent) !important; backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); border-bottom: 0 !important; box-shadow: none !important; }
+html[data-skin="toss"] .wordmark { font-weight: 700 !important; letter-spacing: -0.01em !important; text-transform: none !important; font-size: 17px !important; color: var(--ink) !important; }
+html[data-skin="toss"] .menu a { color: var(--muted) !important; font-weight: 500; border-bottom: 0 !important; text-decoration: none !important; padding: 7px 12px !important; border-radius: 100px; transition: background-color .2s, color .2s; }
+html[data-skin="toss"] .menu a:hover { background: var(--tile); color: var(--ink) !important; }
+html[data-skin="toss"] .menu a.is-current { color: var(--ink) !important; font-weight: 600; }
+html[data-skin="toss"] .menu a:last-child { }
+html[data-skin="toss"] .menu { gap: 4px !important; }
+
+/* screen indicator: short lines on the left, like a progress rail */
+@media (min-width: 1400px) {
+  html[data-skin="toss"][data-page="view"] .screen-dots { left: 22px !important; right: auto !important; gap: 7px !important; }
+  html[data-skin="toss"] .screen-dots a { width: 12px !important; height: 2px !important; border-radius: 2px !important; border: 0 !important; background: color-mix(in srgb, var(--ink) 18%, transparent) !important; transform: none !important; transition: width .25s, background-color .25s !important; }
+  html[data-skin="toss"] .screen-dots a.is-current { width: 22px !important; background: var(--ink) !important; }
+}
+
+/* type: heavy, tight headlines; calm grey body */
+html[data-skin="toss"] .micro { color: var(--accent) !important; font-weight: 600 !important; letter-spacing: 0.02em !important; }
+html[data-skin="toss"] .micro.dot::before { display: none !important; }
+html[data-skin="toss"] .section-title { font-weight: 700 !important; letter-spacing: -0.035em !important; color: var(--ink) !important; }
+html[data-skin="toss"] .hero-feedlayout .hero-name { font-weight: 700 !important; letter-spacing: -0.045em !important; }
+html[data-skin="toss"] .hero-feedlayout .hero-intro, html[data-skin="toss"] .hero-feedlayout .hero-intro.is-lead { color: var(--muted) !important; font-weight: 500 !important; letter-spacing: -0.015em; }
+html[data-skin="toss"] .avatar img, html[data-skin="toss"] .avatar { border-color: transparent !important; }
+
+/* first screen: work list as soft grey tiles */
+html[data-skin="toss"] .hero-feedlayout .feed-index { background: var(--tile) !important; border: 0 !important; border-radius: 20px !important; transition: background-color .2s, transform .2s !important; }
+html[data-skin="toss"] .hero-feedlayout .feed-index:hover { background: var(--tile-hover) !important; transform: translateY(-2px); }
+html[data-skin="toss"] .feed-index .feed-num { font-weight: 700 !important; color: var(--accent) !important; letter-spacing: -0.02em; }
+html[data-skin="toss"] .feed-index .feed-title { font-weight: 700 !important; letter-spacing: -0.02em; }
+html[data-skin="toss"] .feed-index .micro { color: var(--sub) !important; }
+html[data-skin="toss"] .feed-index .feed-arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--paper); color: var(--ink) !important; font-size: 14px; }
+html[data-skin="toss"] .feed-index:hover .feed-arrow { background: var(--accent); color: var(--accent-ink) !important; transform: none !important; }
+
+/* about */
+html[data-skin="toss"] .col-label { color: var(--sub) !important; font-weight: 600 !important; letter-spacing: 0.04em !important; }
+html[data-skin="toss"] .prose p { color: var(--muted) !important; }
+html[data-skin="toss"] .tl h4, html[data-skin="toss"] .tl b, html[data-skin="toss"] .org-name, html[data-skin="toss"] .tl strong { font-weight: 700 !important; letter-spacing: -0.01em; }
+html[data-skin="toss"] .tl li::before { border-color: var(--accent) !important; background: var(--paper) !important; }
+html[data-skin="toss"] .tl::before, html[data-skin="toss"] .tl li::after { background: var(--line) !important; border-color: var(--line) !important; }
+html[data-skin="toss"] .langs b { font-weight: 700 !important; }
+html[data-skin="toss"] .prose a { color: var(--accent) !important; text-decoration: none !important; font-weight: 600; }
+
+/* how I work: borderless grey tiles, bold dark title, blue rule removed */
+html[data-skin="toss"] .how-cards li, html[data-skin="toss"] .how-cards li.is-key { background: var(--tile) !important; border: 0 !important; border-radius: 28px !important; transition: transform .25s ease, background-color .25s; }
+html[data-skin="toss"] .how-cards li:hover { transform: translateY(-4px); background: var(--tile-hover) !important; }
+html[data-skin="toss"] .how-cards h3 { color: var(--ink) !important; font-weight: 700 !important; letter-spacing: -0.035em !important; }
+html[data-skin="toss"] .how-cards p { border-top: 0 !important; color: var(--muted) !important; }
+
+/* projects */
+html[data-skin="toss"] .chip { background: var(--tile) !important; border: 0 !important; font-weight: 600 !important; color: var(--muted) !important; }
+html[data-skin="toss"] .chip:hover { background: var(--tile-hover) !important; color: var(--ink) !important; }
+html[data-skin="toss"] .chip[aria-pressed="true"] { background: var(--ink) !important; color: var(--paper) !important; }
+html[data-skin="toss"] .projects .card { background: var(--tile) !important; border: 0 !important; border-radius: 28px !important; overflow: hidden; transition: transform .25s ease, background-color .25s !important; }
+html[data-skin="toss"] .projects .card:hover { transform: translateY(-4px); background: var(--tile-hover) !important; }
+html[data-skin="toss"] .projects .card-visual { border-radius: 0 !important; border: 0 !important; }
+html[data-skin="toss"] .projects .card-title { font-weight: 700 !important; letter-spacing: -0.03em !important; }
+html[data-skin="toss"] .projects .card-result, html[data-skin="toss"] .projects .feed-result { color: var(--accent) !important; font-weight: 700 !important; letter-spacing: -0.01em; }
+html[data-skin="toss"] .projects .card .micro { color: var(--sub) !important; }
+html[data-skin="toss"] .projects .card-more { display: inline-flex !important; align-items: center; gap: 8px; padding: 7px 8px 7px 16px !important; margin-top: auto !important; border-radius: 100px; background: var(--paper); color: var(--ink) !important; font-weight: 600; font-size: 0.85rem !important; }
+html[data-skin="toss"] .projects .card-more i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 12px; margin: 0 !important; transition: background-color .2s; }
+html[data-skin="toss"] a.card:hover .card-more i { background: var(--accent); }
+html[data-skin="toss"] .slide-btn { background: var(--tile) !important; border: 0 !important; color: var(--ink) !important; }
+html[data-skin="toss"] .slide-btn:hover:not(:disabled) { background: var(--ink) !important; color: var(--paper) !important; }
+html[data-skin="toss"] .slide-count { color: var(--sub) !important; font-weight: 600; }
+html[data-skin="toss"] .projects .card.is-flash { animation: tossflash 1.6s ease; }
+@keyframes tossflash { 0%, 60% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* contact: big bold line, grey tiles */
+html[data-skin="toss"] .contact .section-title { font-size: clamp(2.6rem, 5vw, 4.2rem) !important; }
+html[data-skin="toss"] .contact-lede { color: var(--muted) !important; font-weight: 500; }
+html[data-skin="toss"] .c-facts { color: var(--sub) !important; }
+html[data-skin="toss"] .c-boxes > * { background: var(--tile) !important; border: 0 !important; border-radius: 24px !important; transition: transform .25s ease, background-color .25s !important; }
+html[data-skin="toss"] .c-boxes > *:hover { transform: translateY(-3px); background: var(--tile-hover) !important; }
+html[data-skin="toss"] .c-boxes .micro { color: var(--sub) !important; }
+html[data-skin="toss"] .c-boxes svg, html[data-skin="toss"] .c-boxes .ico { color: var(--accent) !important; }
+html[data-skin="toss"] .site-foot { border-top: 0 !important; background: var(--tile) !important; }
+html[data-skin="toss"] .site-foot b { font-weight: 700; }
+
+/* case pages opened from the Product view */
+html[data-skin="toss"] .cs-title { font-weight: 700 !important; letter-spacing: -0.04em !important; }
+html[data-skin="toss"] .cs-label { font-weight: 700 !important; letter-spacing: -0.02em !important; }
+html[data-skin="toss"] .cs-body h3 { font-weight: 700 !important; }
+html[data-skin="toss"] .tldr { background: var(--tile) !important; border: 0 !important; border-radius: 24px !important; }
+html[data-skin="toss"] .button { border-radius: 100px !important; font-weight: 600 !important; }
+html[data-skin="toss"] .figure img, html[data-skin="toss"] .cs-hero img { border-radius: 20px; }
+html[data-skin="toss"] .table-wrap { border-radius: 16px; }
+
+/* motion: content rises in softly, with a light blur, as it scrolls into view */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-skin="toss"] .tz { opacity: 0; transform: translateY(28px); filter: blur(6px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--tz-d, 0s); }
+  html[data-skin="toss"] .tz.tz-in { opacity: 1; transform: none; filter: none; }
+  html[data-skin="toss"] .projects .card.tz.tz-in:hover, html[data-skin="toss"] .how-cards li.tz.tz-in:hover { transform: translateY(-4px); }
+}
+/* round 22 fixes */
+html[data-skin="toss"] .section, html[data-skin="toss"] .screen.how { border-top: 0 !important; }
+html[data-skin="toss"] .card-kicker { letter-spacing: 0.02em !important; font-weight: 600 !important; }
+html[data-skin="toss"] .tldr dd { text-align: left !important; }
+html[data-skin="toss"] .tldr > div + div { border-color: color-mix(in srgb, var(--ink) 8%, transparent) !important; }
+html[data-skin="toss"] .cs-section { border-top-color: var(--line) !important; }
+html[data-skin="toss"] .back { text-decoration: none !important; font-weight: 600; color: var(--muted) !important; }
+@media (max-width: 560px) {
+  html[data-skin="toss"] .menu { gap: 0 !important; }
+  html[data-skin="toss"] .menu a { padding: 6px 7px !important; }
+  html[data-skin="toss"] .how-cards li { min-height: 0 !important; padding: 4px 24px !important; border-radius: 22px !important; }
+  html[data-skin="toss"] .projects .card, html[data-skin="toss"] .c-boxes > * { border-radius: 22px !important; }
+}
+
+/* ---------- round 23: product case pages, Toss-like reading ---------- */
+.cs-stats, .cs-skills { display: none; }
+html[data-skin="toss"] .cs-hero { padding-top: clamp(24px, 5vh, 56px); }
+html[data-skin="toss"] .cs-title { font-size: clamp(2.2rem, 4.6vw, 3.9rem) !important; line-height: 1.12 !important; max-width: 18em !important; text-wrap: balance; margin-bottom: 18px !important; }
+html[data-skin="toss"] .cs-lede { font-size: clamp(1.1rem, 1.6vw, 1.35rem) !important; line-height: 1.55 !important; color: var(--muted) !important; font-weight: 500; max-width: 40em !important; text-wrap: pretty; }
+html[data-skin="toss"] .cs-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin: clamp(28px, 5vh, 48px) 0 12px; }
+html[data-skin="toss"] .cs-stat { background: var(--tile); border-radius: 24px; padding: 26px 28px 24px; display: grid; gap: 8px; align-content: start; }
+html[data-skin="toss"] .cs-stat b { font-size: clamp(1.9rem, 3.2vw, 2.7rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; color: var(--accent); white-space: nowrap; }
+html[data-skin="toss"] .cs-stat span { font-size: 0.98rem; line-height: 1.45; color: var(--muted); font-weight: 500; }
+html[data-skin="toss"] .tldr { margin-top: 0 !important; }
+html[data-skin="toss"] .tldr dt { color: var(--ink) !important; font-weight: 700 !important; letter-spacing: 0 !important; text-transform: none !important; font-size: 1rem !important; }
+html[data-skin="toss"] .tldr dd { font-size: 0.98rem !important; line-height: 1.6 !important; color: var(--muted) !important; }
+html[data-skin="toss"] .cs-skills { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 22px 0 8px; }
+html[data-skin="toss"] .cs-skills .micro { margin: 0 !important; color: var(--sub) !important; }
+html[data-skin="toss"] .cs-skills ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+html[data-skin="toss"] .cs-skills li { padding: 7px 14px; border-radius: 100px; background: var(--tile); color: var(--ink); font-size: 0.88rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+html[data-skin="toss"] .cs-cover { border: 0 !important; padding: 0 !important; border-radius: 28px !important; background: var(--tile) !important; margin-top: clamp(28px, 5vh, 48px) !important; }
+html[data-skin="toss"] .cs-cover img { border-radius: 0 !important; }
+html[data-skin="toss"] .cs-meta { border: 0 !important; background: var(--tile); border-radius: 24px !important; }
+html[data-skin="toss"] .cs-meta dt { color: var(--sub) !important; font-weight: 600 !important; letter-spacing: 0.04em !important; }
+html[data-skin="toss"] .cs-note { color: var(--sub) !important; font-size: 0.85rem !important; }
+/* sections: big statement heading, readable measure, no hard rules */
+html[data-skin="toss"] .cs-section { border-top: 0 !important; padding-block: clamp(36px, 6vh, 64px) !important; }
+@media (min-width: 900px) { html[data-skin="toss"] .cs-section { grid-template-columns: 240px minmax(0, 1fr) !important; gap: 40px !important; } }
+html[data-skin="toss"] .cs-label { font-size: clamp(1.5rem, 2.2vw, 1.9rem) !important; line-height: 1.15 !important; letter-spacing: -0.035em !important; }
+html[data-skin="toss"] .cs-body > p, html[data-skin="toss"] .cs-body > ul { max-width: 46em !important; }
+html[data-skin="toss"] .cs-body p, html[data-skin="toss"] .cs-body li { text-align: left !important; font-size: 1.06rem !important; line-height: 1.7 !important; color: var(--muted); }
+html[data-skin="toss"] .cs-body strong { color: var(--ink); font-weight: 700; }
+html[data-skin="toss"] .cs-body ul { padding: 0 !important; list-style: none !important; display: grid; gap: 10px; }
+html[data-skin="toss"] .cs-body ul > li { background: var(--tile); border-radius: 18px; padding: 16px 20px !important; margin: 0 !important; }
+html[data-skin="toss"] .cs-body ul > li::marker { content: ""; }
+html[data-skin="toss"] .cs-body ul > li::before { display: none !important; }
+html[data-skin="toss"] .cs-body .figure, html[data-skin="toss"] .cs-body figure { border: 0 !important; background: var(--tile) !important; border-radius: 24px !important; padding: clamp(10px, 2vw, 22px) !important; }
+html[data-skin="toss"] .cs-body em { color: var(--sub); font-style: normal; font-size: 0.92rem; }
+html[data-skin="toss"] .table-wrap { border: 0 !important; background: var(--tile); border-radius: 22px !important; padding: 6px 18px; }
+html[data-skin="toss"] .table-wrap th { color: var(--ink) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 0.9rem !important; }
+html[data-skin="toss"] .table-wrap td { font-size: 0.95rem !important; line-height: 1.5 !important; }
+html[data-skin="toss"] .table-wrap td:first-child { color: var(--ink); font-weight: 600; }
+html[data-skin="toss"] .table-wrap tr + tr td, html[data-skin="toss"] .table-wrap td { border-color: color-mix(in srgb, var(--ink) 8%, transparent) !important; }
+@media (max-width: 560px) { html[data-skin="toss"] .cs-stat b { white-space: normal; } }
+html[data-skin="toss"] .cs-lede, html[data-skin="toss"] .tldr dd { text-align: left !important; }
+html[data-skin="toss"] .cs-stat.is-long b { font-size: clamp(1.5rem, 2.3vw, 2.1rem); }
+/* interview quotes */
+.quote { margin: 8px 0; font-size: 1.2rem; line-height: 1.5; }
+.quote em { display: block; margin-top: 8px; font-style: normal; font-size: 0.9rem; color: var(--muted); }
+html[data-skin="toss"] .cs-body .quote { margin: 4px 0; padding: 24px 28px; background: var(--tile); border-radius: 22px; border: 0; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.45; color: var(--ink); max-width: 46em; }
+html[data-skin="toss"] .cs-body .quote em { color: var(--sub); font-weight: 600; font-size: 0.9rem; letter-spacing: 0; }
+@media (max-width: 560px) {
+  html[data-skin="toss"] .how-cards h3, html[data-skin="toss"] .how-cards p { flex: none !important; }
+  html[data-skin="toss"] .how-cards li { padding: 22px 22px !important; gap: 10px !important; }
+  html[data-skin="toss"] .how-cards h3 { padding: 0 !important; }
+  html[data-skin="toss"] .how-cards p { padding: 0 !important; }
+}
+/* filters: hidden cards really disappear (card display rules use !important) */
+html body .projects .work-grid .card[hidden] { display: none !important; }
+/* projects screen: always fits one screen on desktop; cards shrink with the window height, images keep their ratio */
+@media (min-width: 900px) and (min-height: 600px) {
+  html[data-skin="toss"][data-page="view"] .screen.projects { justify-content: safe center !important; padding-top: clamp(20px, 4vh, 48px) !important; padding-bottom: 12px !important; }
+  html[data-skin="toss"] .projects .screen-head { margin-bottom: clamp(14px, 2.6vh, 28px) !important; }
+  html[data-skin="toss"] .projects .slider { width: min(100%, max(640px, calc((100svh - 450px) / 0.75 * 3 + 48px))); }
+  html[data-skin="toss"] .projects .card-text { padding: 14px 20px 14px !important; gap: 2px !important; }
+  html[data-skin="toss"] .projects .card-summary { min-height: 0 !important; }
+  html[data-skin="toss"] .projects .card-more { padding: 5px 6px 5px 14px !important; font-size: 0.8rem !important; }
+  html[data-skin="toss"] .projects .card-more i { width: 22px; height: 22px; font-size: 11px; }
+  html[data-skin="toss"] .projects .slide-row { margin-top: 8px !important; }
+}
+@media (min-width: 900px) and (min-height: 600px) and (max-height: 820px) {
+  html[data-skin="toss"] .projects .card-title { font-size: 1.3rem !important; }
+  html[data-skin="toss"] .projects .card-summary { font-size: 0.85rem !important; line-height: 1.4 !important; }
+  html[data-skin="toss"] .projects .card-result { font-size: 0.9rem !important; }
+}
+@media (min-width: 900px) and (min-height: 600px) and (max-height: 680px) { html[data-skin="toss"] .projects .card-more { display: none !important; } html[data-skin="toss"] .projects .card-text { padding-bottom: 16px !important; } }
+
+/* ---------- round 24: featured list with thumbnails (a visual preview, not a copy of the cards) ---------- */
+html body .hero-feedlayout .feed-index.feed-thumbed { grid-template-columns: clamp(90px, 9.5vw, 140px) minmax(0, 1fr) auto !important; column-gap: 18px !important; padding: 10px 16px 10px 10px !important; }
+.feed-thumbed .feed-thumb { grid-column: 1; grid-row: 1 / 4; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--paper); align-self: center; }
+.feed-thumbed .feed-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.feed-thumbed:hover .feed-thumb img { transform: scale(1.04); }
+.feed-thumbed .feed-title, .feed-thumbed .micro, .feed-thumbed .feed-line { grid-column: 2 !important; }
+.feed-thumbed .feed-arrow { grid-column: 3 !important; grid-row: 1 / 4 !important; }
+html body .feed-thumbed .feed-res { color: var(--accent) !important; font-weight: 700; font-size: 0.88rem !important; letter-spacing: -0.01em; }
+@media (min-width: 900px) and (max-height: 800px) { html body .hero-feedlayout .feed-index.feed-thumbed { padding: 7px 14px 7px 7px !important; grid-template-columns: clamp(76px, 6.5vw, 96px) minmax(0, 1fr) auto !important; } }
+html[data-skin="toss"] .cs-hero .cs-links { margin: 22px 0 0 !important; }
+html[data-skin="toss"] .cs-hero .cs-links .button { padding: 13px 22px !important; font-size: 15px !important; }
+/* current menu item: navy pill with white text */
+html[data-skin="toss"] .menu a.is-current { background: var(--accent) !important; color: var(--accent-ink) !important; font-weight: 600; }
+html[data-skin="toss"] .menu a.is-current:hover { background: var(--accent) !important; color: var(--accent-ink) !important; }
+html[data-skin="toss"] .feed-index:hover .feed-arrow { transform: translateX(3px) !important; }
+
+/* ---------- round 25: brighter ivory paper (light mode) ---------- */
+html[data-skin="toss"]:not([data-theme="dark"]) { --paper: #fcfaf5; --surface: #f2efe7; --line: #e7e2d8; --tile: #f3efe6; --tile-hover: #ece7dc; }
+@media (prefers-color-scheme: dark) { html[data-skin="toss"]:not([data-theme="light"]) { --paper: #121716; --surface: #1c2422; --line: #2b3533; } }
+@media (prefers-color-scheme: dark) { html[data-skin="toss"]:not([data-theme="light"]) { --tile: color-mix(in srgb, var(--accent) 7%, var(--paper)); --tile-hover: color-mix(in srgb, var(--accent) 12%, var(--paper)); } }

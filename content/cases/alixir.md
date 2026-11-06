@@ -8,6 +8,8 @@ summary_design: A speculative smart kitchen device that turns everyday fruit and
 role: UX Designer in a team of two; work shared 50/50
 platform: Concept landing page · Figma
 timeline: Experience Design 1 · April – May 2025
+line_design: A concept landing page for a smart kitchen device, designed in a team of two
+prototype: https://www.figma.com/proto/PGeAmMxyHbMcVloAd86LM9/Landing-Page?node-id=275-29&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=275%3A29
 ---
 
 ## Design question

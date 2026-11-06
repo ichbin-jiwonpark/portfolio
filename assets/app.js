@@ -107,7 +107,7 @@
   function markdown(md) {
     var lines = md.split("\n"), out = [], i = 0;
     function isBlockStart(l) {
-      return /^(#{2,3} |- |\d+\. |\||!\[)/.test(l) || l.trim() === "";
+      return /^(#{2,3} |- |\d+\. |\||!\[|> )/.test(l) || l.trim() === "";
     }
     while (i < lines.length) {
       var l = lines[i];
@@ -123,6 +123,12 @@
           items.push("<li>" + inline(item) + "</li>");
         }
         out.push((ordered ? "<ol>" : "<ul>") + items.join("") + (ordered ? "</ol>" : "</ul>"));
+        continue;
+      }
+      if (/^> /.test(l)) {
+        var q = [];
+        while (i < lines.length && /^> /.test(lines[i])) { q.push(lines[i].slice(2).trim()); i++; }
+        out.push('<blockquote class="quote">' + inline(q.join(" ")) + "</blockquote>");
         continue;
       }
       if (/^\|/.test(l)) {
@@ -213,6 +219,7 @@
   function after() {
     var r = currentRoute();
     root.setAttribute("data-page", r.page);
+    root.setAttribute("data-skin", "toss");
     if (observer) observer.disconnect();
     if (revealer) revealer.disconnect();
     if (!bundle && location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
@@ -242,11 +249,28 @@
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); revealer.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -10% 0px" });
     [].slice.call(document.querySelectorAll(".section")).forEach(function (el) { revealer.observe(el); });
+    tossReveal();
+  }
+
+  // Product view: items rise in one after another as they scroll into view.
+  function tossReveal() {
+    var sel = ".hero-text > *, .hero-feed > *, .section-title, .section .micro.dot, .about-col, .how-cards li, .chips, .projects .card, .contact-lede, .c-facts, .c-boxes > *, .cs-title, .cs-lede, .tldr";
+    var els = [].slice.call(document.querySelectorAll(sel));
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("tz-in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+    els.forEach(function (el) {
+      if (el.classList.contains("tz")) return;
+      var sib = el.parentNode ? [].slice.call(el.parentNode.children).filter(function (c) { return c.matches(sel); }) : [];
+      el.style.setProperty("--tz-d", Math.min(sib.indexOf(el), 5) * 0.08 + "s");
+      el.classList.add("tz");
+      io.observe(el);
+    });
   }
 
   // Keep hyphenated words (anti-money-laundering, back-office) on one line: swap the hyphen for a non-breaking one.
   function keepWords() {
-    [].slice.call(document.querySelectorAll(".prose p, .how-cards p, .hero-intro, .card-summary, .tl p, .tl-bullets li, .cs-lede, .cs-body p, .cs-body li, .tldr dd, .contact-lede")).forEach(function (el) {
+    [].slice.call(document.querySelectorAll(".cs-title, .cs-label, .cs-stat span, .quote, .card-title, .feed-line, .prose p, .how-cards p, .hero-intro, .card-summary, .tl p, .tl-bullets li, .cs-lede, .cs-body p, .cs-body li, .tldr dd, .contact-lede")).forEach(function (el) {
       var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
       while ((n = w.nextNode())) if (/\w-\w/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(\w)-(?=\w)/g, "$1\u2011");
     });
@@ -480,12 +504,12 @@
         if (!featured.length) featured = ids.slice(0, 4);
         var feedHtml = featured.slice(0, 4).map(function (id, i) {
           var fm = byId[id].meta, img = fm["image_" + view] || fm.image;
-          return '<a class="feed-item feed-index" href="#projects" data-jump="' + id + '">' +
-            '<span class="feed-num">0' + (i + 1) + "</span>" +
+          return '<a class="feed-item feed-index feed-thumbed" href="' + caseHref(id, view) + '"' + routeAttr({ page: "case", id: id, view: view }) + ">" +
+            (img ? '<span class="feed-thumb"><img src="' + assetUrl(img) + '" alt="" loading="lazy"></span>' : '<span class="feed-num">0' + (i + 1) + "</span>") +
             '<span class="feed-title">' + esc(fm.card_title || fm.title) + "</span>" +
             '<span class="micro">' + esc(label[id] || "") + (fm.year ? " · " + esc(fm.year) : "") + "</span>" +
-            ((fm["line_" + view] || "") ? '<span class="feed-line">' + inline(fm["line_" + view]) + "</span>" : "") +
-            '<span class="feed-arrow" aria-hidden="true">↓</span></a>';
+            (fm.result ? '<span class="feed-line feed-res">' + inline(fm.result) + "</span>" : "") +
+            '<span class="feed-arrow" aria-hidden="true">→</span></a>';
         }).join("");
         var hero = '<section class="hero screen wrap hero-feedlayout" id="top" data-sec="top">' +
           '<div class="hero-text">' +
@@ -494,7 +518,7 @@
             (m[view + "_headline"] ? '<p class="hero-headline">' + inline(m[view + "_headline"]) + "</p>" : "") +
             '<p class="hero-intro' + ((m[view + "_intro"] || "").indexOf(" || ") < 0 ? " is-lead" : "") + '">' + (m[view + "_intro"] || "").split(" || ").map(inline).join("<br>") + "</p>" +
           "</div>" +
-          '<aside class="hero-feed" aria-label="Selected work"><p class="micro dot">Selected work</p>' + feedHtml + "</aside></section>";
+          '<aside class="hero-feed" aria-label="Featured projects"><p class="micro dot">Featured projects</p>' + feedHtml + "</aside></section>";
 
         var strengths = numbered(m, view + "_strength_");
         var about = '<section class="section screen about wrap" id="about" data-sec="about">' +
@@ -520,11 +544,13 @@
         groups.forEach(function (g) { tabs.forEach(function (t) { if (t[0] === g[0]) t[2] += g[2].length; }); });
         var chips = '<div class="chips" role="group" aria-label="Filter projects"><button class="chip" type="button" data-filter="all" aria-pressed="true">All <span>' + ids.length + "</span></button>" +
           tabs.map(function (t) { return '<button class="chip" type="button" data-filter="' + t[0] + '" aria-pressed="false">' + esc(t[1]) + " <span>" + t[2] + "</span></button>"; }).join("") + "</div>";
-        var cards = groups.map(function (g) {
-          return g[2].map(function (id) { return card(byId[id], view, "grid", g[3]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" data-id="' + id + '" class="card'); }).join("");
-        }).join("");
+        var gOf = {}; groups.forEach(function (g) { g[2].forEach(function (id) { gOf[id] = g; }); });
+        var order = list(m[view + "_order"]).filter(function (id) { return gOf[id]; });
+        ids.forEach(function (id) { if (order.indexOf(id) < 0) order.push(id); });
+        var cards = order.map(function (id) { var g = gOf[id];
+          return card(byId[id], view, "grid", g[3]).replace(/^<(a|div) class="card/, '<$1 data-group="' + g[0] + '" data-id="' + id + '" class="card'); }).join("");
         var projects = '<section class="section screen projects wrap" id="projects">' +
-          '<div class="screen-head"><div><p class="micro dot">03 — Projects</p><h2 class="section-title">Selected projects</h2></div>' + chips + "</div>" +
+          '<div class="screen-head"><div><p class="micro dot">03 — Projects</p><h2 class="section-title">All projects</h2></div>' + chips + "</div>" +
           '<div class="slider"><button class="slide-btn prev" type="button" data-dir="-1" aria-label="Previous projects">←</button>' +
           '<div class="work-grid">' + cards + "</div>" +
           '<button class="slide-btn next" type="button" data-dir="1" aria-label="Next projects">→</button></div>' +
@@ -568,9 +594,10 @@
     if (!r.id) return Promise.reject(new Error("No project was given in the link."));
     return Promise.all([load("content/site.md"), loadCaseFor(r.id, r.view)]).then(function (res) {
       var site = res[0], doc = res[1], m = doc.meta;
-      document.title = (m.card_title || m.title) + " — " + site.meta.name;
-      var tldr = r.view === "product" && m.tldr_problem;
-      var box = tldr ? '<dl class="tldr">' + [["Problem", m.tldr_problem], ["My role", m.tldr_role], ["Impact", m.tldr_impact]].filter(function (x) { return x[1]; }).map(function (x) {
+      document.title = (m.card_title || m["title_" + r.view] || m.title) + " — " + site.meta.name;
+      var tv = function (k) { return m[k + "_" + r.view] || (r.view === "product" ? m[k] : ""); };
+      var tldr = tv("tldr_problem");
+      var box = tldr ? '<dl class="tldr">' + [["Problem", tv("tldr_problem")], ["My role", tv("tldr_role")], [r.view === "product" ? "Impact" : "Outcome", tv("tldr_impact")]].filter(function (x) { return x[1]; }).map(function (x) {
         return "<div><dt>" + x[0] + "</dt><dd>" + inline(x[1]) + "</dd></div>"; }).join("") + "</dl>" : "";
       var meta = META_FIELDS.filter(function (f) { return m[f[0]] && !(tldr && (f[0] === "outcome" || f[0] === "role")); }).map(function (f) {
         return "<div><dt>" + f[1] + "</dt><dd>" + inline(m[f[0]]) + "</dd></div>";
@@ -581,11 +608,16 @@
         '<section class="cs-hero wrap">' + back +
         (m.status === "draft" ? '<p class="draft-note">Draft. Highlighted text still needs to be filled in.</p>' : "") +
         '<p class="cs-kicker micro dot">' + esc(m.kind || "") + (m.year ? " · " + esc(m.year) : "") + "</p>" +
-        '<h1 class="cs-title">' + inline(m.title || "") + "</h1>" +
-        (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") + box +
+        '<h1 class="cs-title">' + inline(m["title_" + r.view] || m.title || "") + "</h1>" +
+        (m["summary_" + r.view] ? '<p class="cs-lede">' + inline(m["summary_" + r.view]) + "</p>" : "") +
+        (m.prototype ? '<p class="cs-links"><a class="button" href="' + esc(m.prototype) + '" target="_blank" rel="noopener">View prototype in Figma <span aria-hidden="true">↗</span></a></p>' : "") +
+        (m["stats_" + r.view] ? '<div class="cs-stats">' + m["stats_" + r.view].split(" || ").map(function (x) {
+          var p = x.split(" :: "); return '<div class="cs-stat' + (p[0].length > 10 ? " is-long" : "") + '"><b>' + inline(p[0]) + "</b><span>" + inline(p[1] || "") + "</span></div>"; }).join("") + "</div>" : "") +
+        box +
+        (m["skills_" + r.view] ? '<div class="cs-skills"><p class="micro">Relevant for</p><ul>' + m["skills_" + r.view].split(" · ").map(function (x) {
+          return "<li>" + inline(x) + "</li>"; }).join("") + "</ul></div>" : "") +
         ((m["image_" + r.view] || m.image) ? '<figure class="cs-cover"><img src="' + assetUrl(m["image_" + r.view] || m.image) + '" alt=""></figure>' : "") +
         '<dl class="cs-meta">' + meta + "</dl>" +
-        (m.prototype ? '<p class="cs-links"><a class="button" href="' + esc(m.prototype) + '" target="_blank" rel="noopener">View prototype in Figma <span aria-hidden="true">↗</span></a></p>' : "") +
         (m.note ? '<p class="cs-note">' + inline(m.note) + "</p>" : "") + "</section>" +
         '<article class="wrap cs-article">' + sections(markdown(doc.body)) + "</article>" +
         '<nav class="wrap cs-end">' + back + "</nav></main>" + contact(site, r.view);
